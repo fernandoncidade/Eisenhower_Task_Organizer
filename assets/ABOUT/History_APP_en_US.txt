@@ -1,0 +1,28 @@
+History and Rationale for Development
+
+EISENHOWER ORGANIZER was born as a personal tool designed to solve a real productivity problem. The author, a Bachelor of Civil Engineering student, lives with dyslexia and ADHD and faced practical difficulties organizing tasks, prioritizing study, and maintaining focus on essential activities. Existing tools proved either too complex or full of distractions — which worsened loss of focus instead of helping.
+
+Motivation
+Faced with this need, an application was designed to be simple, direct, and resistant to cognitive noise: a clean interface, minimal controls, and clear visual feedback. The choice of the Eisenhower Matrix as a paradigm arose because it offers an intuitive prioritization method (Important × Urgent) that facilitates quick decisions and reduces mental overload.
+
+Design objectives
+- Minimize friction in adding and categorizing tasks, allowing task entry to be almost instantaneous.
+- Ensure visual clarity with lists divided by quadrants and a clear distinction between pending and completed tasks.
+- Provide offline operation, preserving privacy and avoiding dependence on external services.
+- Facilitate recovery and continuity with automatic saving to tasks.json and options for export/import (XLSX, PDF).
+- Support multiple languages and immediate text updates to reduce cognitive effort when switching language or context.
+
+Development and evolution
+The initial prototype was implemented for personal use and iterated as the author used it during study routines and engineering projects. Practical feedback led to improvements such as dynamic placeholders, automatic movement between lists when marking tasks, a context menu for removal, and intuitive shortcuts for common operations. Over time, the project was refined for distribution as a Windows executable, allowing other users to benefit without needing to install dependencies.
+
+Expected impact
+The application aims to increase user efficiency by:
+- Reducing the time spent deciding what to do next.
+- Decreasing cognitive interruptions through a focused interface.
+- Providing simple mechanisms to archive, restore, and transfer information between devices via export.
+
+Future vision
+Keep the core light and accessible, with enhancements guided by real usage: integration with local reminders, accessibility adjustments for dyslexia/ADHD, and improvements in import/export based on user feedback.
+
+Author
+Fernando Nillsson Cidade — Bachelor of Civil Engineering student. Application developed to optimize focus and efficiency during study and professional activities.

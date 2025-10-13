@@ -1,0 +1,66 @@
+EISENHOWER ORGANIZER Privacy Policy
+Last updated: September 22, 2025
+Version 0.0.1.0
+
+This Policy describes how EISENHOWER ORGANIZER (“Software”) handles user information. The Software is designed to operate locally, without telemetry collection.
+
+1. Scope and Principles
+ - Local operation: all data processed by the Software remains on your device.
+ - Minimization: only information necessary to organize tasks is processed.
+ - Transparency and control: you control the creation, editing, export, import, and deletion of your data.
+
+2. Data Processed by the Software
+2.1 Content entered by you
+ - Task text, as well as its status (pending/completed) and the associated quadrant (Important/Urgent, etc.).
+
+2.2 Files chosen by you
+ - Import: when you choose an XLSX or PDF file to import, the Software reads only that file to extract tasks.
+ - Export: when saving to XLSX or PDF (or JSON), the Software writes the contents of your task lists to the location you select.
+
+2.3 Local technical data
+ - Minimal data may be kept for operation, such as the local tasks file (tasks.json) and, if generated, local error logs. There is no automatic collection of personal identifiers.
+
+3. What the Software DOES NOT Collect or Transmit
+ - No account, registration, or login.
+ - No telemetry, analytics, or online tracking.
+ - No automatic sending of data to the developer or third-party servers.
+ - No scanning of folders beyond the files you explicitly choose to open/import.
+
+4. Storage and Retention
+ - Storage location: tasks are saved in tasks.json in the user's persistent path (e.g., AppData). The exact path is determined by the operating system.
+ - Exports: exported files (XLSX, PDF, JSON) are saved in the location you choose.
+ - Retention: data remains until you edit, clear, or delete it; you can remove tasks.json and exported files at any time.
+
+5. Legal Basis (LGPD)
+ - Local processing is carried out to execute the Software's features at the user's request, with implicit consent through use. As data is not sent to the developer, you maintain direct control over it.
+
+6. Sharing
+ - The Software does not share data. Any sharing occurs only by your action (e.g., sending an exported file to third parties).
+
+7. Security
+ - As data remains only on your device, protection depends on your system's safeguards (user accounts, permissions, antivirus, backups). It is recommended to keep your system updated and make regular backups.
+
+8. Microsoft Store and Accessibility
+ - Accessibility and compliance documentation for publication (see “MS-Store-ADA-v8.9-FINAL-EN.pdf”) accompanies the distribution. This documentation does not change this Policy or authorize data collection; it serves to describe accessibility and interface compliance practices.
+
+9. Error and Diagnostic Reports
+ - The Software does not send error reports to the developer. Any error logs may be saved locally.
+ - If the operating system generates crash reports (e.g., Windows Error Reporting), this occurs according to your system settings and under the privacy policy of the respective provider (e.g., Microsoft). The developer does not control this flow.
+
+10. Data Subject Rights (LGPD)
+ - Access, correction, and deletion: you can view, edit, export, and delete your tasks via the interface. For complete removal, you can manually delete the tasks.json file and any exports.
+ - Portability: use the export function (XLSX/PDF/JSON) to obtain a copy of your data.
+
+11. Children and Adolescents
+ - The Software is not directed at children under 13 and does not intentionally collect personal data.
+
+12. Third Parties and Libraries
+ - The Software uses third-party libraries (e.g., PySide6, openpyxl, PyPDF2, reportlab) only to provide local features (interface, file reading/writing). These libraries do not automatically send data on behalf of the Software. Licenses and notices are available in the “Notices/Licenses” section of the installer.
+
+13. Changes to this Policy
+ - This Policy may be updated. In case of relevant changes, the date at the top will be updated and, when appropriate, there may be a notice within the Software.
+
+14. Contact
+ - Questions about this Policy:
+ Fernando Nillsson Cidade
+ E-mail: linceu_lighthouse@outlook.com

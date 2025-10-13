@@ -1,0 +1,66 @@
+Política de Privacidade do EISENHOWER ORGANIZER
+Última atualização: 22 de Setembro de 2025
+Versão 0.0.1.0
+
+Esta Política descreve como o EISENHOWER ORGANIZER (“Software”) lida com informações do usuário. O Software foi projetado para operar localmente, sem coleta de telemetria.
+
+1. Escopo e Princípios
+- Operação local: todos os dados tratados pelo Software permanecem no seu dispositivo.
+- Minimização: apenas informações necessárias para organizar tarefas são processadas.
+- Transparência e controle: você controla criação, edição, exportação, importação e exclusão dos seus dados.
+
+2. Dados Processados pelo Software
+2.1 Conteúdo inserido por você
+- Texto das tarefas, bem como seu estado (pendente/concluída) e o quadrante associado (Importante/Urgente, etc.).
+
+2.2 Arquivos escolhidos por você
+- Importação: quando você escolhe um arquivo XLSX ou PDF para importar, o Software lê somente esse arquivo para extrair tarefas.
+- Exportação: ao salvar em XLSX ou PDF (ou JSON), o Software grava o conteúdo das suas listas de tarefas no local que você selecionar.
+
+2.3 Dados técnicos locais
+- Podem ser mantidos dados mínimos para funcionamento, como o arquivo local de tarefas (tasks.json) e, se gerados, registros de erro locais. Não há coleta automática de identificadores pessoais.
+
+3. O que o Software NÃO Coleta ou Transmite
+- Sem conta, cadastro ou login.
+- Sem telemetria, analytics ou rastreamento online.
+- Sem envio automático de dados a servidores do desenvolvedor ou de terceiros.
+- Sem varredura de pastas além dos arquivos que você explicitamente escolher abrir/importar.
+
+4. Armazenamento e Retenção
+- Local de armazenamento: tarefas são salvas em tasks.json no caminho persistente do usuário (por exemplo, AppData). O caminho exato é determinado pelo sistema operacional.
+- Exportações: arquivos exportados (XLSX, PDF, JSON) são gravados no local escolhido por você.
+- Retenção: os dados permanecem até você editar, limpar ou excluir; você pode remover o tasks.json e os arquivos exportados a qualquer momento.
+
+5. Base Legal (LGPD)
+- Tratamento local realizado para execução das funcionalidades do Software a pedido do usuário, com consentimento implícito no uso. Como os dados não são enviados ao desenvolvedor, você mantém controle direto sobre eles.
+
+6. Compartilhamento
+- O Software não compartilha dados. Qualquer compartilhamento ocorre somente por sua ação (ex.: enviar um arquivo exportado a terceiros).
+
+7. Segurança
+- Como os dados ficam apenas no seu dispositivo, a proteção depende das salvaguardas do próprio sistema (contas de usuário, permissões, antivírus, backups). Recomenda-se manter o sistema atualizado e fazer cópias de segurança periódicas.
+
+8. Microsoft Store e Acessibilidade
+- Documentação de acessibilidade e conformidade para publicação (vide “MS-Store-ADA-v8.9-FINAL-EN.pdf”) acompanha a distribuição. Essa documentação não altera esta Política nem autoriza coleta de dados; serve para descrever práticas de acessibilidade e conformidade de interface.
+
+9. Relatórios de Erro e Diagnóstico
+- O Software não envia relatórios de erro ao desenvolvedor. Eventuais registros de erro podem ser gravados localmente.
+- Caso o sistema operacional gere relatórios de falha (ex.: Windows Error Reporting), isso ocorre segundo as configurações do seu sistema e sob a política de privacidade do respectivo fornecedor (por exemplo, Microsoft). O desenvolvedor não controla esse fluxo.
+
+10. Direitos do Titular (LGPD)
+- Acesso, correção e exclusão: você pode ver, editar, exportar e excluir suas tarefas pela interface. Para remoção completa, você pode apagar manualmente o arquivo tasks.json e quaisquer exportações.
+- Portabilidade: utilize a função de exportação (XLSX/PDF/JSON) para obter uma cópia dos dados.
+
+11. Crianças e Adolescentes
+- O Software não é direcionado a crianças menores de 13 anos e não realiza coleta intencional de dados pessoais.
+
+12. Terceiros e Bibliotecas
+- O Software utiliza bibliotecas de terceiros (por exemplo, PySide6, openpyxl, PyPDF2, reportlab) apenas para fornecer funcionalidades locais (interface, leitura/gravação de arquivos). Essas bibliotecas não realizam envio automático de dados em nome do Software. Licenças e avisos estão disponíveis na seção “Notices/Licenses” do instalador.
+
+13. Alterações nesta Política
+- Esta Política pode ser atualizada. Em caso de mudanças relevantes, a data no topo será atualizada e, quando apropriado, poderá haver aviso dentro do Software.
+
+14. Contato
+- Dúvidas sobre esta Política:
+  Fernando Nillsson Cidade
+  E-mail: linceu_lighthouse@outlook.com

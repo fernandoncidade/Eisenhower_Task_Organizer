@@ -1,0 +1,17 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.1.0
+
+Nesta nova versão:
+
+- Aplicativo EISENHOWER ORGANIZER distribuído como executável para Windows, sem necessidade de instalar Python ou dependências manualmente.
+- Organização de tarefas em quatro quadrantes da Matriz de Eisenhower, com listas separadas para tarefas pendentes e concluídas.
+- Adição rápida de tarefas com seletor de quadrante e movimentação automática entre listas ao marcar como concluída.
+- Remoção de tarefas por menu de contexto com confirmação.
+- Persistência automática das tarefas em arquivo local tasks.json no diretório do usuário.
+- Exportação de tarefas para XLSX (Excel) e PDF, e importação de tarefas desses formatos.
+- Interface multilíngue com seleção de idioma e atualização imediata dos textos.
+- Janela "Sobre" com histórico, detalhes, avisos, licenças e política de privacidade carregados dos arquivos de recursos.
+- Operação totalmente offline: nenhum dado é enviado a servidores externos.
+- Instalação simples via instalador, com recursos e configurações prontos para uso imediato.
+- Soluções para problemas comuns e orientações de uso incluídas na documentação e na janela "Sobre".
+
+Para dúvidas, suporte ou sugestões, consulte os canais informados no instalador ou na documentação do aplicativo.

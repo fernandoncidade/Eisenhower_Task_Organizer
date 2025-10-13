@@ -1,0 +1,65 @@
+Projeto: EISENHOWER ORGANIZER
+Versão: 0.0.1.0
+Autores: Fernando Nillsson Cidade
+
+Descrição resumida:
+EISENHOWER ORGANIZER é um aplicativo leve para organizar tarefas usando a Matriz de Eisenhower (Importante/Urgente). Permite criar, classificar, marcar como concluídas e exportar/importar tarefas de forma simples e rápida. A interface é traduzível e preparada para distribuição como executável — o usuário final não precisa instalar dependências manualmente.
+
+Descrição detalhada:
+O aplicativo organiza tarefas em quatro quadrantes:
+- 1º Quadrante: Importante e Urgente
+- 2º Quadrante: Importante, mas Não Urgente
+- 3º Quadrante: Não Importante, mas Urgente
+- 4º Quadrante: Não Importante e Não Urgente
+
+Para cada quadrante há uma lista de tarefas pendentes e outra de tarefas concluídas. Uma tarefa marcada como concluída é automaticamente movida para a lista de concluídas correspondente; ao desmarcar, retorna à lista original. Itens de espaço reservado (placeholders) indicam listas vazias e são atualizados quando necessário.
+
+Principais funcionalidades:
+- Adicionar tarefas rapidamente com seletor de quadrante.
+- Marcar tarefa como concluída (movimentação automática entre listas).
+- Remover tarefas por menu de contexto com confirmação.
+- Persistência local: tarefas são salvas automaticamente em tasks.json no diretório persistente do usuário (instalação/executável).
+- Exportar para XLSX (planilha Excel) e PDF via diálogo "Salvar Como".
+- Importar tarefas de XLSX e PDF através de "Abrir" — suporta planilhas com abas nomeadas por quadrantes e PDFs com seções identificáveis.
+- Interface multilíngue: seleção de idioma via menu de configuração; textos e placeholders atualizam imediatamente.
+- Janela "Sobre" com histórico, detalhes, avisos, licenças e política de privacidade carregados a partir dos arquivos de recursos incluídos no executável.
+- Operação offline: todos os dados ficam no dispositivo do usuário, sem telemetria.
+
+Instalação e distribuição:
+- Fornecido como instalador/executável para Windows (usuário final não precisa instalar bibliotecas Python).
+- O instalador copia os recursos necessários e configura o aplicativo para uso imediato.
+- Local padrão para salvar/abrir arquivos é a pasta do usuário; ao exportar/importar, o diálogo do sistema permite escolher local desejado.
+
+Armazenamento de dados e privacidade:
+- As tarefas são mantidas localmente em um arquivo tasks.json no caminho persistente do sistema (por exemplo, AppData do usuário). Nenhum dado é enviado automaticamente a servidores externos.
+- Arquivos exportados (XLSX, PDF, JSON) ficam no local escolhido pelo usuário ao salvar.
+- A política de privacidade e avisos legais estão incluídos no instalador e acessíveis na janela "Sobre".
+
+Requisitos do sistema:
+- Windows 10 ou superior.
+- Espaço em disco mínimo padrão para usuários de produtividade.
+- Não é necessário Python nem instalar dependências quando o aplicativo é instalado via executável.
+
+Como usar (rápido):
+1. Inicie o aplicativo.
+2. Digite a tarefa no campo "Adicionar tarefa..." e selecione o quadrante.
+3. Clique em "Adicionar Tarefa" ou pressione Enter.
+4. Marque a caixa ao lado da tarefa para movê-la à lista de concluídas; desmarque para restaurá-la.
+5. Clique com o botão direito sobre uma tarefa para removê-la.
+6. Use "Arquivo → Salvar Como" para exportar; "Arquivo → Abrir" para importar XLSX/PDF.
+7. Configure idioma em "Configurações → Idioma" e veja "Sobre" para licenças e informações adicionais.
+
+Soluções de problemas comuns:
+- Monitorar localização de tasks.json: o arquivo é criado no diretório persistente do aplicativo. Se não encontrar dados, verifique permissões de gravação em sua pasta de usuário.
+- PDF/XLSX não importam: use o formato esperado (abas nomeadas para XLSX ou seções reconhecíveis no PDF). Mensagens informam quando o formato é incompatível.
+- Alto consumo de recursos: aplicação é leve; problemas provavelmente decorrentes de outro software no sistema.
+
+Contato e suporte:
+- Autor: Fernando Nillsson Cidade
+- Para sugestões, erros ou contribuições consulte os canais fornecidos no instalador ou na documentação anexa.
+
+Licença e avisos:
+- Informações de licenças, avisos e política de privacidade estão incluídas no instalador e na seção "Sobre" do aplicativo.
+
+Notas finais:
+Este documento descreve o comportamento da aplicação distribuída como executável. Usuários avançados que platejam uso diferente (integração com scripts, backups automatizados, localização de arquivos) devem consultar a documentação técnica ou o instalador para detalhes sobre caminhos e parâmetros.
