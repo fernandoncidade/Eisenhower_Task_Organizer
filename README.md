@@ -15,7 +15,7 @@
 
 # EISENHOWER ORGANIZER — Organizador de Tarefas pela Matriz de Eisenhower
 
-Versão: v0.0.0.0 — 13 de Outubro de 2025  
+Versão: v0.0.1.0 — 13 de Outubro de 2025  
 Autor: Fernando Nillsson Cidade
 
 **Total de downloads acumulados:**  
@@ -121,7 +121,7 @@ EISENHOWER ORGANIZER é um aplicativo leve para gerenciar tarefas usando a Matri
 
 # EISENHOWER ORGANIZER — Task Organizer using the Eisenhower Matrix
 
-Version: v0.0.0.0 — October 13, 2025  
+Version: v0.0.1.0 — October 13, 2025  
 Author: Fernando Nillsson Cidade
 
 **Total cumulative downloads:**  
