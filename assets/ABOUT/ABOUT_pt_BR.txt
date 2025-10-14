@@ -1,5 +1,5 @@
 Projeto: EISENHOWER ORGANIZER
-Versão: 0.0.1.0
+Versão: 0.0.2.0
 Autores: Fernando Nillsson Cidade
 
 Descrição resumida:
@@ -24,6 +24,8 @@ Principais funcionalidades:
 - Interface multilíngue: seleção de idioma via menu de configuração; textos e placeholders atualizam imediatamente.
 - Janela "Sobre" com histórico, detalhes, avisos, licenças e política de privacidade carregados a partir dos arquivos de recursos incluídos no executável.
 - Operação offline: todos os dados ficam no dispositivo do usuário, sem telemetria.
+- Implementação de calendário para vincular tarefas.
+- Visualização das tarefas por data (dia, semana, mês).
 
 Instalação e distribuição:
 - Fornecido como instalador/executável para Windows (usuário final não precisa instalar bibliotecas Python).

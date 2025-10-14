@@ -42,6 +42,10 @@ def criar_menu_configuracoes(app):
 
     config_menu.addMenu(idioma_menu)
 
+    acao_calendario = QAction(get_text("Calendário"), app)
+    acao_calendario.triggered.connect(app.open_calendar)
+    config_menu.addAction(acao_calendario)
+
     opcoes_menu = QMenu(get_text("Opções"), app)
     acao_sobre = QAction(get_text("Sobre"), app)
     acao_sobre.triggered.connect(app.exibir_sobre)
