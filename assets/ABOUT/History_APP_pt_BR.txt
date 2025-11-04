@@ -1,0 +1,28 @@
+História e Justificativa do Desenvolvimento
+
+EISENHOWER ORGANIZER nasceu como uma ferramenta pessoal concebida para resolver um problema real de produtividade. O autor, estudante de Bacharelado em Engenharia Civil, convive com dislexia e TDAH e enfrentava dificuldades práticas para organizar tarefas, priorizar estudos e manter o foco em atividades essenciais. Ferramentas existentes mostraram‑se ou complexas demais, ou cheias de distrações — o que agravava a perda de foco em vez de ajudar.
+
+Motivação
+Diante dessa necessidade, foi projetado um aplicativo simples, direto e resistente a ruídos cognitivos: uma interface limpa, controles mínimos e feedback visual claro. A escolha da Matriz de Eisenhower como paradigma surgiu por oferecer um método intuitivo de priorização (Importante × Urgente) que facilita decisões rápidas e redução da sobrecarga mental.
+
+Objetivos de design
+- Minimizar a fricção na adição e classificação de tarefas, permitindo que a ação de registrar uma tarefa seja quase instantânea.
+- Garantir clareza visual com listas divididas por quadrantes e distinção nítida entre tarefas pendentes e concluídas.
+- Oferecer funcionamento offline, preservando privacidade e evitando dependência de serviços externos.
+- Facilitar recuperação e continuidade com salvamento automático em tasks.json e opções de exportação/importação (XLSX, PDF).
+- Suportar múltiplos idiomas e textos imediatos para reduzir esforço cognitivo ao alternar idioma ou contexto.
+
+Desenvolvimento e evolução
+O protótipo inicial foi implementado para uso pessoal e iterado conforme o autor o utilizava durante rotinas de estudo e projetos de engenharia. Feedback prático conduziu a melhorias como placeholders dinâmicos, movimento automático entre listas ao marcar tarefas, menu de contexto para remoção e atalhos intuitivos para operações comuns. Com o tempo, o projeto foi polido para distribuição como executável Windows, permitindo que outros usuários obtenham os benefícios sem necessidade de instalar dependências.
+
+Impacto esperado
+A aplicação visa aumentar a eficiência do usuário ao:
+- Reduzir o tempo gasto decidindo o que fazer a seguir.
+- Diminuir interrupções cognitivas por meio de uma interface focada.
+- Fornecer mecanismos simples para arquivar, restaurar e trocar informações entre dispositivos por exportação.
+
+Visão futura
+Manter o núcleo leve e acessível, com aprimoramentos guiados por uso real: integração com lembretes locais, ajustes de acessibilidade para dislexia/TDAH e melhorias na importação/exportação conforme feedback de usuários.
+
+Autor
+Fernando Nillsson Cidade — estudante de Bacharelado em Engenharia Civil. Aplicação desenvolvida para otimizar foco e eficiência durante estudos e atividades profissionais.

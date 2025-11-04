@@ -1,0 +1,92 @@
+Aviso de Licenças e Atribuições de Software de Terceiros
+
+Este documento lista as principais bibliotecas de terceiros utilizadas no projeto EISENHOWER ORGANIZER e as referências às suas licenças. O objetivo é cumprir requisitos de distribuição (incluindo conformidade LGPL para bibliotecas Qt/PySide6) e oferecer informações para usuários e integradores. As dependências do projeto estão listadas no arquivo requirements.txt incluído no repositório/instalador.
+
+Informações gerais sobre PySide6 (Qt para Python) — conformidade LGPL
+- Biblioteca: PySide6 (Qt for Python)
+- Licença: GNU Lesser General Public License (LGPL) v3 (ou conforme versão do PySide6 empacotada)
+- Versão utilizada (ver requirements.txt): PySide6 6.x (conforme pacote no instalador)
+- Substituição das bibliotecas LGPL:
+  - As bibliotecas PySide6 são distribuídas como bibliotecas dinâmicas (DLLs) no instalador/executável.
+  - Para substituir as DLLs PySide6, localize a pasta de instalação/instância que contém os binários PySide6 e substitua os arquivos DLL correspondentes por suas versões compatíveis.
+  - Se desejar o código-fonte correspondente à versão do PySide6 usada no executável, ele está disponível publicamente em:
+    https://github.com/qt/pyside
+  - Caso haja dificuldade em obter código-fonte ou binários compatíveis, solicite instruções pelos canais de suporte informados no instalador/distribuição.
+
+Dependências principais (referências e licenças)
+- PySide6 — LGPL v3
+  https://github.com/qt/pyside
+  https://www.gnu.org/licenses/lgpl-3.0.html.en
+
+- openpyxl — Licença MIT (manipulação de arquivos XLSX)
+  https://openpyxl.readthedocs.io/
+  https://opensource.org/licenses/MIT
+
+- PyPDF2 — Licença BSD 3-Clause (leitura de PDFs)
+  https://pypi.org/project/PyPDF2/
+  https://opensource.org/licenses/BSD-3-Clause
+
+- reportlab — Licença ReportLab / BSD-like (geração de PDFs)
+  https://www.reportlab.com/
+  https://pypi.org/project/reportlab/
+
+- Pillow (PIL) — Licença permissiva (processamento de imagens)
+  https://python-pillow.org/
+  https://pypi.org/project/Pillow/
+
+- platformdirs — Licença MIT (caminhos persistentes do sistema)
+  https://github.com/platformdirs/platformdirs
+  https://opensource.org/licenses/MIT
+
+- tomli — Licença MIT (parser TOML, utilitário)
+  https://pypi.org/project/tomli/
+  https://opensource.org/licenses/MIT
+
+- backports.tarfile — Licença MIT (compatibilidade)
+  https://pypi.org/project/backports.tarfile/
+  https://opensource.org/licenses/MIT
+
+- importlib-metadata / importlib-resources — Licença Apache 2.0
+  https://importlib-metadata.readthedocs.io/
+  https://www.apache.org/licenses/LICENSE-2.0
+
+- jaraco.collections — Licença MIT
+  https://pypi.org/project/jaraco.collections/
+  https://opensource.org/licenses/MIT
+
+- pywin32-ctypes / pywin32 (APIs Windows) — licenciamento conforme respectivos projetos (PSF/MIT ou conforme documentação)
+  https://github.com/mhammond/pywin32
+  https://docs.python.org/3/license.html
+
+- PyInstaller (ferramenta de empacotamento usada para criar o executável) — consulte a licença do PyInstaller utilizada no processo de build
+  https://www.pyinstaller.org/
+  https://github.com/pyinstaller/pyinstaller
+
+- Outras dependências listadas em requirements.txt
+  - altgraph, autocommand, charset-normalizer, et_xmlfile, jaraco.context, jaraco.functools, jaraco.text, more-itertools, packaging, pefile, pip-chill, shiboken6, zipp, entre outras.
+  - As licenças e textos completos de cada componente estão disponíveis nos repositórios oficiais e nos pacotes PyPI correspondentes. Consulte requirements.txt para a lista completa de versões.
+
+Obtenção dos textos de licença completos
+- Os textos completos das licenças e a lista de componentes de terceiros são incluídos no pacote de distribuição/instalador (arquivo LICENSE.txt / diretório LICENSES ou equivalente).
+- Links úteis com as licenças principais:
+  - LGPL: https://www.gnu.org/licenses/lgpl-3.0.html.en
+  - MIT: https://opensource.org/licenses/MIT
+  - BSD-2 / BSD-3: https://opensource.org/licenses
+  - Apache 2.0: https://www.apache.org/licenses/LICENSE-2.0
+  - Python Software Foundation License: https://docs.python.org/3/license.html
+  - ISC: https://opensource.org/license/isc-license-txt
+
+Declaração sobre transmissão de dados e privacidade
+- O executável padrão não envia telemetria automática a servidores externos.
+- Os dados do usuário (por exemplo, tasks.json e arquivos exportados) permanecem sob controle do usuário e são armazenados localmente.
+- Para detalhes sobre tratamento de dados pessoais, consulte a Política de Privacidade incluída no instalador/distribuição.
+
+Contato para pedidos de código-fonte ou esclarecimentos sobre licenças
+- Caso precise de cópia do código-fonte das bibliotecas LGPL/compatíveis ou de esclarecimentos sobre substituição de bibliotecas, por favor utilize os canais de suporte informados no instalador/distribuição.
+- Em geral, o instalador inclui informações de contato e instruções para obtenção de fontes quando exigido por licenças de terceiros.
+
+Notas finais
+- Este documento foi adaptado para refletir as dependências e requisitos de conformidade do projeto EISENHOWER ORGANIZER. Se novos componentes forem adicionados ao projeto, a documentação de licenças será atualizada no pacote de distribuição.
+- Mantenha sempre backups dos seus dados antes de atualizar ou substituir bibliotecas do executável.
+
+Versão do documento: 22 de Setembro de 2025

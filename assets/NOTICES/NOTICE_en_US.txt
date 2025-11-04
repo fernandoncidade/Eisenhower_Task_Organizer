@@ -1,0 +1,92 @@
+Third-Party Software Licenses and Attributions Notice
+
+This document lists the main third-party libraries used in the EISENHOWER ORGANIZER project and references to their licenses. The purpose is to comply with distribution requirements (including LGPL compliance for Qt/PySide6 libraries) and provide information for users and integrators. Project dependencies are listed in the requirements.txt file included in the repository/installer.
+
+General information about PySide6 (Qt for Python) — LGPL compliance
+- Library: PySide6 (Qt for Python)
+- License: GNU Lesser General Public License (LGPL) v3 (or according to the packaged PySide6 version)
+- Version used (see requirements.txt): PySide6 6.x (as packaged in the installer)
+- Replacing LGPL libraries:
+  - PySide6 libraries are distributed as dynamic libraries (DLLs) in the installer/executable.
+  - To replace PySide6 DLLs, locate the installation/instance folder containing the PySide6 binaries and replace the corresponding DLL files with compatible versions.
+  - If you want the source code corresponding to the PySide6 version used in the executable, it is publicly available at:
+    https://github.com/qt/pyside
+  - If you have difficulty obtaining compatible source code or binaries, request instructions via the support channels provided in the installer/distribution.
+
+Main dependencies (references and licenses)
+- PySide6 — LGPL v3
+  https://github.com/qt/pyside
+  https://www.gnu.org/licenses/lgpl-3.0.html.en
+
+- openpyxl — MIT License (XLSX file handling)
+  https://openpyxl.readthedocs.io/
+  https://opensource.org/licenses/MIT
+
+- PyPDF2 — BSD 3-Clause License (PDF reading)
+  https://pypi.org/project/PyPDF2/
+  https://opensource.org/licenses/BSD-3-Clause
+
+- reportlab — ReportLab / BSD-like License (PDF generation)
+  https://www.reportlab.com/
+  https://pypi.org/project/reportlab/
+
+- Pillow (PIL) — Permissive License (image processing)
+  https://python-pillow.org/
+  https://pypi.org/project/Pillow/
+
+- platformdirs — MIT License (system persistent paths)
+  https://github.com/platformdirs/platformdirs
+  https://opensource.org/licenses/MIT
+
+- tomli — MIT License (TOML parser, utility)
+  https://pypi.org/project/tomli/
+  https://opensource.org/licenses/MIT
+
+- backports.tarfile — MIT License (compatibility)
+  https://pypi.org/project/backports.tarfile/
+  https://opensource.org/licenses/MIT
+
+- importlib-metadata / importlib-resources — Apache 2.0 License
+  https://importlib-metadata.readthedocs.io/
+  https://www.apache.org/licenses/LICENSE-2.0
+
+- jaraco.collections — MIT License
+  https://pypi.org/project/jaraco.collections/
+  https://opensource.org/licenses/MIT
+
+- pywin32-ctypes / pywin32 (Windows APIs) — licensing according to respective projects (PSF/MIT or as documented)
+  https://github.com/mhammond/pywin32
+  https://docs.python.org/3/license.html
+
+- PyInstaller (packaging tool used to create the executable) — see the PyInstaller license used in the build process
+  https://www.pyinstaller.org/
+  https://github.com/pyinstaller/pyinstaller
+
+- Other dependencies listed in requirements.txt
+  - altgraph, autocommand, charset-normalizer, et_xmlfile, jaraco.context, jaraco.functools, jaraco.text, more-itertools, packaging, pefile, pip-chill, shiboken6, zipp, among others.
+  - Full licenses and texts for each component are available in the official repositories and corresponding PyPI packages. See requirements.txt for the complete list of versions.
+
+Obtaining full license texts
+- Full license texts and the list of third-party components are included in the distribution/installer package (LICENSE.txt file / LICENSES directory or equivalent).
+- Useful links for main licenses:
+  - LGPL: https://www.gnu.org/licenses/lgpl-3.0.html.en
+  - MIT: https://opensource.org/licenses/MIT
+  - BSD-2 / BSD-3: https://opensource.org/licenses
+  - Apache 2.0: https://www.apache.org/licenses/LICENSE-2.0
+  - Python Software Foundation License: https://docs.python.org/3/license.html
+  - ISC: https://opensource.org/license/isc-license-txt
+
+Statement on data transmission and privacy
+- The standard executable does not send automatic telemetry to external servers.
+- User data (e.g., tasks.json and exported files) remains under user control and is stored locally.
+- For details on personal data processing, see the Privacy Policy included in the installer/distribution.
+
+Contact for source code requests or license clarifications
+- If you need a copy of the source code for LGPL/compatible libraries or clarifications about library replacement, please use the support channels provided in the installer/distribution.
+- In general, the installer includes contact information and instructions for obtaining sources when required by third-party licenses.
+
+Final notes
+- This document has been adapted to reflect the dependencies and compliance requirements of the EISENHOWER ORGANIZER project. If new components are added to the project, license documentation will be updated in the distribution package.
+- Always keep backups of your data before updating or replacing executable libraries.
+
+Document version: September 22, 2025

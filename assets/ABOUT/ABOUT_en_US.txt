@@ -1,0 +1,65 @@
+Project: EISENHOWER ORGANIZER
+Version: 0.0.1.0
+Authors: Fernando Nillsson Cidade
+
+Short description:
+EISENHOWER ORGANIZER is a lightweight application to manage tasks using the Eisenhower Matrix (Important/Urgent). It allows creating, categorizing, marking tasks as completed, and exporting/importing tasks quickly and simply. The interface is translatable and prepared for distribution as an executable — end users do not need to install dependencies manually.
+
+Detailed description:
+The application organizes tasks into four quadrants:
+- 1st Quadrant: Important and Urgent
+- 2nd Quadrant: Important but Not Urgent
+- 3rd Quadrant: Not Important but Urgent
+- 4th Quadrant: Not Important and Not Urgent
+
+Each quadrant has a list of pending tasks and a list of completed tasks. A task marked as completed is automatically moved to the corresponding completed list; when unmarked it returns to the original list. Placeholder items indicate empty lists and are updated as needed.
+
+Main features:
+- Quickly add tasks with a quadrant selector.
+- Mark tasks as completed (automatic movement between lists).
+- Remove tasks via context menu with confirmation.
+- Local persistence: tasks are saved automatically to tasks.json in the application's persistent user directory (installation/executable).
+- Export to XLSX (Excel) and PDF via the "Save As" dialog.
+- Import tasks from XLSX and PDF via "Open" — supports spreadsheets with sheets named by quadrant and PDFs with identifiable sections.
+- Multilingual interface: language selection via the settings menu; texts and placeholders update immediately.
+- "About" window with history, details, notices, licenses and privacy policy loaded from resource files included in the executable.
+- Offline operation: all data remains on the user's device; no telemetry.
+
+Installation and distribution:
+- Provided as an installer/executable for Windows (end users do not need to install Python or dependencies).
+- The installer copies required resources and configures the application for immediate use.
+- Default folder for saving/opening files is the user's folder; system dialogs allow choosing the desired location when exporting/importing.
+
+Data storage and privacy:
+- Tasks are stored locally in a tasks.json file in the system's persistent path (for example, the user's AppData). No data is sent automatically to external servers.
+- Exported files (XLSX, PDF, JSON) are saved at the location chosen by the user.
+- The privacy policy and legal notices are included in the installer and accessible from the "About" window.
+
+System requirements:
+- Windows 10 or later.
+- Standard minimal disk space for productivity applications.
+- No Python installation or dependency management required for end users when installed as an executable.
+
+Quick start:
+1. Launch the application.
+2. Type the task in the "Add task..." field and select the quadrant.
+3. Click "Add Task" or press Enter.
+4. Tick the checkbox next to a task to move it to the completed list; untick to restore it.
+5. Right-click a task to remove it.
+6. Use "File → Save As" to export; "File → Open" to import XLSX/PDF.
+7. Configure language under "Settings → Language" and view "About" for licenses and additional information.
+
+Common troubleshooting:
+- Locate tasks.json: the file is created in the application's persistent directory. If data is missing, check write permissions for your user folder.
+- PDF/XLSX do not import: use the expected format (sheets named by quadrant for XLSX or recognizable sections in PDF). The app shows messages when a format is unsupported.
+- High resource usage: the application is lightweight; performance issues likely originate from other software on the system.
+
+Support and contact:
+- Author: Fernando Nillsson Cidade
+- For suggestions, bug reports, or contributions, refer to the channels provided in the installer or included documentation.
+
+License and notices:
+- License information, notices, and the privacy policy are included in the installer and accessible from the application's "About" section.
+
+Final notes:
+This document describes the behavior of the application as distributed in executable form. Advanced users who intend different usage (script integration, automated backups, locating files) should consult the technical documentation or installer for details on paths and parameters.
