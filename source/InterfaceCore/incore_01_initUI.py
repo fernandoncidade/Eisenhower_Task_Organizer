@@ -1,6 +1,6 @@
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt, QCoreApplication
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QComboBox
+from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QComboBox, QDateEdit, QCheckBox
 from utils.IconUtils import get_icon_path
 
 def get_text(text):
@@ -13,6 +13,55 @@ def init_ui(app):
     app.task_input = QLineEdit(app)
     app.task_input.setPlaceholderText(get_text("Adicione uma tarefa..."))
     input_layout.addWidget(app.task_input)
+
+    app.date_checkbox = QCheckBox(get_text("Vincular data"))
+    app.date_checkbox.setChecked(True)
+    input_layout.addWidget(app.date_checkbox)
+
+    app.date_input = QDateEdit(app)
+    app.date_input.setCalendarPopup(True)
+    app.date_input.setDate(QDate.currentDate())
+
+    def _apply_locale_to_date_input():
+        locale = QLocale.system()
+        try:
+            if hasattr(app, "gerenciador_traducao"):
+                idioma = app.gerenciador_traducao.obter_idioma_atual()
+                if idioma and idioma.startswith("pt"):
+                    locale = QLocale(QLocale.Portuguese, QLocale.Brazil)
+
+                elif idioma and idioma.startswith("en"):
+                    locale = QLocale(QLocale.English, QLocale.UnitedStates)
+
+        except Exception:
+            locale = QLocale.system()
+
+        app.date_input.setLocale(locale)
+        try:
+            fmt = locale.dateFormat(QLocale.ShortFormat)
+
+        except Exception:
+            fmt = "dd/MM/yyyy"
+
+        try:
+            import re
+            fmt = re.sub(r'(?<!y)yy(?!y)', 'yyyy', fmt)
+
+        except Exception:
+            pass
+
+        app.date_input.setDisplayFormat(fmt)
+
+    _apply_locale_to_date_input()
+
+    if hasattr(app, "gerenciador_traducao"):
+        try:
+            app.gerenciador_traducao.idioma_alterado.connect(lambda _: _apply_locale_to_date_input())
+
+        except Exception:
+            pass
+
+    input_layout.addWidget(app.date_input)
 
     app.quadrant_selector = QComboBox(app)
     app.quadrant_selector.addItems([
@@ -30,6 +79,14 @@ def init_ui(app):
 
     app.add_button.clicked.connect(app.add_task)
     input_layout.addWidget(app.add_button)
+
+    app.calendar_button = QPushButton(get_text("Calendário"))
+    add_icon_path = get_icon_path("calendar.png")
+    if add_icon_path:
+        app.calendar_button.setIcon(QIcon(add_icon_path))
+
+    app.calendar_button.clicked.connect(app.open_calendar)
+    input_layout.addWidget(app.calendar_button)
 
     app.main_layout.addLayout(input_layout)
 

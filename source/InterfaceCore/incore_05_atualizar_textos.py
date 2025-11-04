@@ -7,6 +7,8 @@ def atualizar_textos(app):
     app.setWindowTitle(get_text("Matriz de Eisenhower - Organizador de Tarefas"))
     app.task_input.setPlaceholderText(get_text("Adicione uma tarefa..."))
     app.add_button.setText(get_text("Adicionar Tarefa"))
+    app.calendar_button.setText(get_text("Calendário"))
+    app.date_checkbox.setText(get_text("Vincular data"))
     app.quadrant_selector.clear()
     app.quadrant_selector.addItems([
         get_text("Importante e Urgente"),

@@ -1,17 +1,41 @@
+RELEASE NOTES: Version 0.0.2.0
+Date: October 14, 2025
+
+User summary
+- New release with useful features and fixes that make the application easier to use and more reliable.
+
+Main new features and improvements
+- Side Calendar Panel: there is now a collapsible calendar panel alongside the window to quickly view dates.
+- Updated Calendar Dialog: you can filter by Day, Week, or Month and see tasks linked to the selected date.
+- Languages and date format: the interface and date formats adapt to the selected language (for example, Portuguese or English).
+- Date display: dates are shown in the local format; when available, the task tooltip shows the date clearly formatted.
+- Improved auto-save: tasks continue to be saved in tasks.json (text and date are stored).
+- Simplified Import/Export: it is possible to import and export tasks in Excel (.xlsx) and PDF. If any feature requires additional software on your computer, the app clearly notifies the user.
+- Usability improvements: texts, placeholders and menus were rearranged to make the app easier to use.
+- More robust error handling: unexpected situations produce friendly messages instead of crashes.
+
+Important fixes
+- Small adjustments to avoid data loss and improve stability.
+
+Notes
+- The application works offline — no data is sent to external servers.
+
+______________________________
+
 RELEASE NOTES: Version 0.0.1.0
 
 In this new version:
 
-- EISENHOWER ORGANIZER application distributed as a Windows executable, with no need to manually install Python or dependencies.
-- Task organization in four quadrants of the Eisenhower Matrix, with separate lists for pending and completed tasks.
+- EISENHOWER ORGANIZER application distributed as a Windows executable, without the need to install Python or dependencies manually.
+- Organization of tasks into the four quadrants of the Eisenhower Matrix, with separate lists for pending and completed tasks.
 - Quick task addition with quadrant selector and automatic movement between lists when marked as completed.
 - Task removal via context menu with confirmation.
 - Automatic persistence of tasks in a local tasks.json file in the user's directory.
 - Export of tasks to XLSX (Excel) and PDF, and import from these formats.
 - Multilingual interface with language selection and immediate text updates.
-- "About" window with history, details, notices, licenses, and privacy policy loaded from resource files.
+- "About" window with history, details, warnings, licenses and privacy policy loaded from resource files.
 - Fully offline operation: no data is sent to external servers.
-- Simple installation via installer, with resources and settings ready for immediate use.
+- Simple installation via installer, with features and settings ready for immediate use.
 - Solutions for common issues and usage guidance included in the documentation and the "About" window.
 
-For questions, support, or suggestions, consult the channels provided in the installer or the application's documentation.
+For questions, support or suggestions, consult the channels listed in the installer or in the application's documentation.

@@ -89,4 +89,4 @@ Final notes
 - This document has been adapted to reflect the dependencies and compliance requirements of the EISENHOWER ORGANIZER project. If new components are added to the project, license documentation will be updated in the distribution package.
 - Always keep backups of your data before updating or replacing executable libraries.
 
-Document version: September 22, 2025
+Document version: October 14, 2025

@@ -1,6 +1,6 @@
 import os
-from PySide6.QtCore import QCoreApplication
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtCore import QCoreApplication, Qt
+from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QPushButton
 from utils.IconUtils import get_icon_path
 from utils.CaminhoPersistenteUtils import obter_caminho_persistente
 from language.tr_01_gerenciadorTraducao import GerenciadorTraducao
@@ -19,6 +19,7 @@ from source.GerenciamentoUI.ui_05_move_item_between_lists import move_item_betwe
 from source.GerenciamentoUI.ui_06_remove_task import remove_task as ui_remove_task
 from source.GerenciamentoUI.ui_07_save_tasks import save_tasks as ui_save_tasks
 from source.GerenciamentoUI.ui_08_load_tasks import load_tasks as ui_load_tasks
+from source.GerenciamentoUI.ui_09_Calendar import Calendar
 
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
@@ -32,7 +33,7 @@ class EisenhowerMatrixApp(QMainWindow):
         self.gerenciador_traducao.aplicar_traducao()
 
         self.setWindowTitle(get_text("Matriz de Eisenhower - Organizador de Tarefas"))
-        self.setGeometry(100, 100, 900, 700)
+        self.setGeometry(100, 100, 1000, 700)
 
         icon_path = get_icon_path("organizador.ico")
         if icon_path:
@@ -53,12 +54,46 @@ class EisenhowerMatrixApp(QMainWindow):
 
     def initUI(self):
         core_init_ui(self)
+        try:
+            old_central = self.centralWidget()
+            container = QWidget()
+            layout = QHBoxLayout(container)
+            layout.setContentsMargins(0, 0, 0, 0)
+            layout.setSpacing(0)
+
+            self.calendar_pane = Calendar(self)
+            layout.addWidget(self.calendar_pane, 0, Qt.AlignLeft)
+            layout.addWidget(old_central, 1)
+
+            self.setCentralWidget(container)
+            self._hide_legacy_calendar_button()
+
+        except Exception:
+            pass
+
+    def _hide_legacy_calendar_button(self):
+        try:
+            for btn in self.findChildren(QPushButton):
+                if btn.text().strip().lower() in {
+                    get_text("Calendário").strip().lower(),
+                    "calendário", "calendario", "calendar"
+                }:
+                    btn.hide()
+
+        except Exception:
+            pass
 
     def add_placeholder(self, list_widget, text):
         core_add_placeholder(self, list_widget, text)
 
     def add_task(self):
         ui_add_task(self)
+        try:
+            if hasattr(self, "calendar_pane") and self.calendar_pane:
+                self.calendar_pane.calendar_panel.update_task_list()
+
+        except Exception:
+            pass
 
     def handle_item_checked(self, item, source_list, target_list):
         ui_handle_item_checked(self, item, source_list, target_list)
@@ -68,15 +103,33 @@ class EisenhowerMatrixApp(QMainWindow):
 
     def remove_task(self, item, list_widget):
         ui_remove_task(self, item, list_widget)
+        try:
+            if hasattr(self, "calendar_pane") and self.calendar_pane:
+                self.calendar_pane.calendar_panel.update_task_list()
+
+        except Exception:
+            pass
 
     def save_tasks(self):
         ui_save_tasks(self)
 
     def load_tasks(self):
         ui_load_tasks(self)
+        try:
+            if hasattr(self, "calendar_pane") and self.calendar_pane:
+                self.calendar_pane.calendar_panel.update_task_list()
+
+        except Exception:
+            pass
 
     def atualizar_textos(self):
         core_atualizar_textos(self)
+        try:
+            if hasattr(self, "calendar_pane") and self.calendar_pane:
+                self.calendar_pane.on_language_changed()
+
+        except Exception:
+            pass
 
     def atualizar_placeholders(self):
         core_atualizar_placeholders(self)
@@ -86,6 +139,14 @@ class EisenhowerMatrixApp(QMainWindow):
 
     def show_context_menu(self, point, list_widget):
         core_show_context_menu(self, point, list_widget)
+
+    def open_calendar(self):
+        try:
+            if hasattr(self, "calendar_pane") and self.calendar_pane:
+                self.calendar_pane.toggle_panel(open_if_hidden=True)
+
+        except Exception:
+            pass
 
     def nova_sessao(self):
         arquivo_novo(self)

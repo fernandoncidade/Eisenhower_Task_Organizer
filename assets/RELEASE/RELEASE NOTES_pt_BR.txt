@@ -1,3 +1,27 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.2.0
+Data: 14 de outubro de 2025
+
+Resumo para usuários
+- Nova versão com recursos úteis e correções que tornam o aplicativo mais fácil de usar e mais confiável.
+
+Novidades e melhorias principais
+- Painel de Calendário lateral: agora há um painel de calendário recolhível ao lado da janela para visualizar datas rapidamente.
+- Diálogo de Calendário atualizado: você pode filtrar por Dia, Semana ou Mês e ver as tarefas vinculadas à data selecionada.
+- Idiomas e formato de data: a interface e os formatos de data se adaptam ao idioma selecionado (por exemplo, português ou inglês).
+- Exibição de datas: as datas são mostradas no formato local; quando disponível, o tooltip da tarefa mostra a data formatada de forma clara.
+- Salvamento automático melhorado: as tarefas continuam sendo salvas em tasks.json (texto e data são armazenados).
+- Importar/Exportar simplificado: é possível importar e exportar tarefas em Excel (.xlsx) e PDF. Se algum recurso precisar de software adicional no seu computador, o app informa claramente.
+- Melhorias de usabilidade: textos, placeholders e menus foram reorganizados para facilitar o uso.
+- Tratamento de erros mais robusto: situações inesperadas geram mensagens amigáveis em vez de travamentos.
+
+Correções importantes
+- Pequenos ajustes para evitar perda de dados e melhorar a estabilidade.
+
+Observaçõesa
+- O aplicativo funciona offline — nenhum dado é enviado para servidores externos.
+
+______________________________
+
 NOTAS DE LANÇAMENTO: Versão 0.0.1.0
 
 Nesta nova versão:

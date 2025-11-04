@@ -29,6 +29,8 @@ def novo(app):
     app.task_input.clear()
     try:
         app.save_tasks()
+        if hasattr(app, "calendar_pane") and app.calendar_pane:
+            app.calendar_pane.calendar_panel.update_task_list()
 
     except Exception:
         pass
@@ -41,6 +43,8 @@ def limpar_tudo(app):
     app.task_input.clear()
     try:
         app.save_tasks()
+        if hasattr(app, "calendar_pane") and app.calendar_pane:
+            app.calendar_pane.calendar_panel.update_task_list()
 
     except Exception:
         pass
@@ -55,6 +59,34 @@ def abrir_arquivo(app):
     path, filt = QFileDialog.getOpenFileName(app, get_text("Abrir"), os.path.expanduser("~"), "Excel (*.xlsx);;PDF (*.pdf)")
     if not path:
         return
+
+    def _parse_text_and_date(raw_text: str):
+        base = (raw_text or "").strip()
+        date_iso = None
+        if " — " in base:
+            left, right = base.rsplit(" — ", 1)
+            date_disp = right.strip()
+            try:
+                from PySide6.QtCore import QDate
+                fmts = []
+                try:
+                    fmts.append(app.date_input.displayFormat())
+
+                except Exception:
+                    pass
+
+                fmts += ["dd/MM/yyyy", "d/M/yyyy", "MM/dd/yyyy", "M/d/yyyy", "yyyy-MM-dd"]
+                for fmt in fmts:
+                    qd = QDate.fromString(date_disp, fmt)
+                    if qd and qd.isValid():
+                        date_iso = qd.toString(Qt.ISODate)
+                        base = left.strip()
+                        break
+
+            except Exception:
+                pass
+
+        return base, date_iso
 
     ext = os.path.splitext(path)[1].lower()
     if ext == ".xlsx":
@@ -74,9 +106,22 @@ def abrir_arquivo(app):
                     for row in sheet.iter_rows(min_row=1, max_col=1, values_only=True):
                         val = row[0]
                         if val and str(val).strip():
-                            item = QListWidgetItem(str(val).strip())
+                            raw_text = str(val).strip()
+                            text, date_iso = _parse_text_and_date(raw_text)
+                            item = QListWidgetItem(raw_text)
                             item.setFlags(item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                             item.setCheckState(Qt.Checked if completed else Qt.Unchecked)
+                            item.setData(Qt.UserRole, {"text": text, "date": date_iso})
+                            if date_iso:
+                                try:
+                                    from PySide6.QtCore import QDate
+                                    qd = QDate.fromString(date_iso, Qt.ISODate)
+                                    if qd.isValid():
+                                        item.setToolTip(f"{get_text('Data') or 'Data'}: {qd.toString(app.date_input.displayFormat())}")
+
+                                except Exception:
+                                    pass
+
                             lst.addItem(item)
 
             populate_from_sheet("quadrant1", app.quadrant1_list, completed=False)
@@ -89,6 +134,13 @@ def abrir_arquivo(app):
             populate_from_sheet("quadrant4_completed", app.quadrant4_completed_list, completed=True)
 
             app.save_tasks()
+            try:
+                if hasattr(app, "calendar_pane") and app.calendar_pane:
+                    app.calendar_pane.calendar_panel.update_task_list()
+
+            except Exception:
+                pass
+
             QMessageBox.information(app, get_text("Abrir"), get_text("Arquivo importado com sucesso."))
 
         except Exception as e:
@@ -140,13 +192,11 @@ def abrir_arquivo(app):
                     continue
 
                 n = normalize(line)
-
                 if n in title_map:
                     current_key = title_map[n]
                     continue
 
                 if current_key:
-                    import re
                     cleaned = re.sub(r'^[\-\u2013\u2014\u2022\u2023\•\*\•\s]+', '', line).strip()
                     if cleaned:
                         segments[current_key].append(cleaned)
@@ -172,7 +222,6 @@ def abrir_arquivo(app):
                         for line in segment_text.splitlines():
                             line = line.strip()
                             if line:
-                                import re
                                 cleaned = re.sub(r'^[\-\u2013\u2014\u2022\u2023\•\*\s]+', '', line).strip()
                                 if cleaned:
                                     segments[key].append(cleaned)
@@ -185,9 +234,22 @@ def abrir_arquivo(app):
                 lst.clear()
                 items = segments.get(key, [])
                 for it in items:
-                    item = QListWidgetItem(it)
+                    raw_text = it.strip()
+                    text_only, date_iso = _parse_text_and_date(raw_text)
+                    item = QListWidgetItem(raw_text)  # mantém exibição
                     item.setFlags(item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                     item.setCheckState(Qt.Checked if completed else Qt.Unchecked)
+                    item.setData(Qt.UserRole, {"text": text_only, "date": date_iso})
+                    if date_iso:
+                        try:
+                            from PySide6.QtCore import QDate
+                            qd = QDate.fromString(date_iso, Qt.ISODate)
+                            if qd.isValid():
+                                item.setToolTip(f"{get_text('Data') or 'Data'}: {qd.toString(app.date_input.displayFormat())}")
+
+                        except Exception:
+                            pass
+
                     lst.addItem(item)
 
             populate_from_list("quadrant1", app.quadrant1_list, False)
@@ -200,6 +262,13 @@ def abrir_arquivo(app):
             populate_from_list("quadrant4_completed", app.quadrant4_completed_list, True)
 
             app.save_tasks()
+            try:
+                if hasattr(app, "calendar_pane") and app.calendar_pane:
+                    app.calendar_pane.calendar_panel.update_task_list()
+
+            except Exception:
+                pass
+
             QMessageBox.information(app, get_text("Abrir"), get_text("PDF importado com sucesso."))
 
         except Exception as e:

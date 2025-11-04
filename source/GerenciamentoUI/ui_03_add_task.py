@@ -12,6 +12,14 @@ def add_task(app):
 
     selected_quadrant = app.quadrant_selector.currentIndex()
 
+    if app.date_checkbox.isChecked():
+        date_str = app.date_input.date().toString(Qt.ISODate)
+        tooltip_text = f"{get_text('Data') or 'Data'}: {app.date_input.date().toString(app.date_input.displayFormat())}"
+
+    else:
+        date_str = None
+        tooltip_text = ""
+
     def clear_placeholder_if_needed(lst):
         if lst.count() == 1 and not (lst.item(0).flags() & Qt.ItemIsSelectable):
             lst.clear()
@@ -21,9 +29,15 @@ def add_task(app):
     clear_placeholder_if_needed(app.quadrant3_list)
     clear_placeholder_if_needed(app.quadrant4_list)
 
-    task_item = QListWidgetItem(task_text)
+    display_text = task_text
+    if date_str:
+        display_text = f"{task_text} — {app.date_input.date().toString(app.date_input.displayFormat())}"
+
+    task_item = QListWidgetItem(display_text)
     task_item.setFlags(task_item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
     task_item.setCheckState(Qt.Unchecked)
+    task_item.setData(Qt.UserRole, {"text": task_text, "date": date_str})
+    task_item.setToolTip(tooltip_text)
 
     if selected_quadrant == 0:
         app.quadrant1_list.addItem(task_item)
