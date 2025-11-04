@@ -10,6 +10,8 @@ from source.GerenciamentoUI.ui_02_OpcoesSobre import (
     RELEASE_NOTES_pt_BR, RELEASE_NOTES_en_US
 )
 from PySide6.QtWidgets import QMessageBox
+from utils.LogManager import LogManager
+logger = LogManager.get_logger()
 
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
@@ -33,7 +35,7 @@ def exibir_sobre(app):
 
         cabecalho_fixo = (
             "<h3>EISENHOWER ORGANIZER</h3>"
-            f"<p><b>{get_text('version') or 'Version'}:</b> 0.0.2.0</p>"
+            f"<p><b>{get_text('version') or 'Version'}:</b> 0.0.3.0</p>"
             f"<p><b>{get_text('authors') or 'Authors'}:</b> Fernando Nillsson Cidade</p>"
             f"<p><b>{get_text('description') or 'Description'}:</b> {get_text('description_text') or ''}</p>"
         )
@@ -47,6 +49,7 @@ def exibir_sobre(app):
             licencas=texto_licenca,
             sites_licencas=SITE_LICENSES,
             show_history_text=get_text("show_history") or "History",
+            hide_history_text=get_text("hide_history") or "Hide history",
             show_details_text=get_text("show_details") or "Details",
             hide_details_text=get_text("hide_details") or "Hide details",
             show_licenses_text=get_text("show_licenses") or "Licenses",
@@ -61,10 +64,12 @@ def exibir_sobre(app):
             hide_privacy_policy_text=get_text("hide_privacy_policy") or "Hide privacy policy",
             info_not_available_text=get_text("information_not_available") or "Information not available",
             release_notes=texto_release_notes,
-            show_release_notes_text=get_text("show_release_notes") or "Release Notes"
+            show_release_notes_text=get_text("show_release_notes") or "Release Notes",
+            hide_release_notes_text=get_text("hide_release_notes") or "Hide release notes"
         )
         dialog.resize(900, 500)
         dialog.show()
 
     except Exception as e:
+        logger.error(f"Erro ao exibir diálogo Sobre: {e}", exc_info=True)
         QMessageBox.critical(app, get_text("Erro") or "Erro", f"{get_text('Erro') or 'Erro'}: {e}")

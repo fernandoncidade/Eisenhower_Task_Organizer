@@ -164,6 +164,10 @@
         <translation>History</translation>
     </message>
     <message>
+        <source>hide_history</source>
+        <translation>Hide history</translation>
+    </message>
+    <message>
         <source>show_details</source>
         <translation>Details</translation>
     </message>
@@ -210,6 +214,10 @@
     <message>
         <source>show_release_notes</source>
         <translation>Release Notes</translation>
+    </message>
+    <message>
+        <source>hide_release_notes</source>
+        <translation>Hide release notes</translation>
     </message>
     <message>
         <source>Arquivo</source>

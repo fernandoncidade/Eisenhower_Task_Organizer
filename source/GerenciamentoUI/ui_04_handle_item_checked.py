@@ -1,4 +1,6 @@
 from PySide6.QtCore import Qt
+from utils.LogManager import LogManager
+logger = LogManager.get_logger()
 
 def handle_item_checked(app, item, source_list, target_list):
     if not item.flags() & Qt.ItemIsSelectable:
@@ -13,6 +15,9 @@ def handle_item_checked(app, item, source_list, target_list):
 
         elif item.checkState() == Qt.Unchecked and source_list is not target_list:
             app.move_item_between_lists(item, source_list, target_list, Qt.Unchecked)
+
+    except Exception as e:
+        logger.error(f"Erro ao mover item entre listas: {e}", exc_info=True)
 
     finally:
         source_list.blockSignals(False)

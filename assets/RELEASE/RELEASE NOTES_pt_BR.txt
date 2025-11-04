@@ -1,5 +1,16 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.3.0
+Data: 4 de Novembro de 2025
+
+Novidades e melhorias principais:
+- Agora é possível vincular um horário a cada tarefa.
+- Ao vincular um horário, a tarefa aparece no quadrante de diálogo e no diálogo do calendário com data e hora associadas corretamente.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.2.0
-Data: 14 de outubro de 2025
+Data: 14 de Outubro de 2025
 
 Resumo para usuários
 - Nova versão com recursos úteis e correções que tornam o aplicativo mais fácil de usar e mais confiável.
@@ -20,9 +31,12 @@ Correções importantes
 Observaçõesa
 - O aplicativo funciona offline — nenhum dado é enviado para servidores externos.
 
+
 ______________________________
 
+
 NOTAS DE LANÇAMENTO: Versão 0.0.1.0
+Data: 23 de Setembro de 2025
 
 Nesta nova versão:
 

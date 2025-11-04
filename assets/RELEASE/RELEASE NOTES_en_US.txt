@@ -1,3 +1,14 @@
+RELEASE NOTES: Version 0.0.3.0
+Date: November 4, 2025
+
+Main new features and improvements:
+- It is now possible to assign a time to each task.
+- When a time is assigned, the task appears in the quadrant dialog and in the calendar dialog with the associated date and time displayed correctly.
+
+
+______________________________
+
+
 RELEASE NOTES: Version 0.0.2.0
 Date: October 14, 2025
 
@@ -20,9 +31,12 @@ Important fixes
 Notes
 - The application works offline — no data is sent to external servers.
 
+
 ______________________________
 
+
 RELEASE NOTES: Version 0.0.1.0
+Date: September 23, 2025
 
 In this new version:
 

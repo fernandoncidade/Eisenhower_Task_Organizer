@@ -5,10 +5,15 @@ logger = LogManager.get_logger()
 
 
 class SobreDialog(QDialog):
-    def __init__(self, parent, titulo, texto_fixo, texto_history, detalhes, licencas, sites_licencas, show_history_text, show_details_text, hide_details_text, 
-                 show_licenses_text, hide_licenses_text, ok_text, site_oficial_text, avisos=None, show_notices_text=None, 
-                 hide_notices_text=None, Privacy_Policy=None, show_privacy_policy_text=None, hide_privacy_policy_text=None, 
-                 info_not_available_text="Information not available", release_notes=None, show_release_notes_text=None):
+    def __init__(self, parent, titulo, texto_fixo, texto_history, detalhes, licencas, sites_licencas, 
+                 show_history_text=None, hide_history_text=None, 
+                 show_details_text=None, hide_details_text=None, 
+                 show_licenses_text=None, hide_licenses_text=None, 
+                 ok_text=None, site_oficial_text=None, avisos=None, 
+                 show_notices_text=None, hide_notices_text=None, 
+                 Privacy_Policy=None, show_privacy_policy_text=None, hide_privacy_policy_text=None, 
+                 info_not_available_text="Information not available", 
+                 release_notes=None, show_release_notes_text=None, hide_release_notes_text=None):
         super().__init__(parent)
         try:
             self.setWindowTitle(titulo)
@@ -32,6 +37,21 @@ class SobreDialog(QDialog):
             header_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
             layout.addWidget(header_widget)
 
+            sh_history = show_history_text or "Histórico"
+            hi_history = hide_history_text or "Ocultar histórico"
+            sh_details = show_details_text or "Detalhes"
+            hi_details = hide_details_text or "Ocultar detalhes"
+            sh_licenses = show_licenses_text or "Licenças"
+            hi_licenses = hide_licenses_text or "Ocultar licenças"
+            sh_notices = show_notices_text or "Avisos"
+            hi_notices = hide_notices_text or "Ocultar avisos"
+            sh_privacy = show_privacy_policy_text or "Política de privacidade"
+            hi_privacy = hide_privacy_policy_text or "Ocultar política de privacidade"
+            sh_release = show_release_notes_text or "Notas de versão"
+            hi_release = hide_release_notes_text or "Ocultar notas de versão"
+            ok_text = ok_text or "OK"
+            site_oficial_text = site_oficial_text or "Official site"
+
             self.tabs = QTabWidget()
             self.tabs.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
@@ -44,7 +64,7 @@ class SobreDialog(QDialog):
             else:
                 history_browser.setHtml(f"<p>{info_not_available_text}.</p>")
 
-            self.tabs.addTab(history_browser, show_history_text)
+            self.tabs.addTab(history_browser, sh_history)
 
             detalhes_browser = QTextBrowser()
             detalhes_browser.setReadOnly(True)
@@ -55,7 +75,7 @@ class SobreDialog(QDialog):
             else:
                 detalhes_browser.setHtml(f"<p>{info_not_available_text}.</p>")
 
-            self.tabs.addTab(detalhes_browser, show_details_text)
+            self.tabs.addTab(detalhes_browser, sh_details)
 
             licencas_browser = QTextBrowser()
             licencas_browser.setReadOnly(True)
@@ -66,14 +86,13 @@ class SobreDialog(QDialog):
                 for site in sites_licencas.strip().split('\n'):
                     if site.strip():
                         texto_html += f'<li><a href="{site.strip()}">{site.strip()}</a></li>'
-
                 texto_html += "</ul>"
                 licencas_browser.setHtml(texto_html)
 
             else:
                 licencas_browser.setHtml(f"<p>{info_not_available_text}.</p>")
 
-            self.tabs.addTab(licencas_browser, show_licenses_text)
+            self.tabs.addTab(licencas_browser, sh_licenses)
 
             avisos_browser = QTextBrowser()
             avisos_browser.setReadOnly(True)
@@ -84,7 +103,7 @@ class SobreDialog(QDialog):
             else:
                 avisos_browser.setHtml(f"<p>{info_not_available_text}.</p>")
 
-            self.tabs.addTab(avisos_browser, show_notices_text)
+            self.tabs.addTab(avisos_browser, sh_notices)
 
             privacidade_browser = QTextBrowser()
             privacidade_browser.setReadOnly(True)
@@ -95,7 +114,7 @@ class SobreDialog(QDialog):
             else:
                 privacidade_browser.setHtml(f"<p>{info_not_available_text}.</p>")
 
-            self.tabs.addTab(privacidade_browser, show_privacy_policy_text)
+            self.tabs.addTab(privacidade_browser, sh_privacy)
 
             release_notes_browser = QTextBrowser()
             release_notes_browser.setReadOnly(True)
@@ -106,7 +125,27 @@ class SobreDialog(QDialog):
             else:
                 release_notes_browser.setHtml(f"<p>{info_not_available_text}.</p>")
 
-            self.tabs.addTab(release_notes_browser, show_release_notes_text or "Release Notes")
+            self.tabs.addTab(release_notes_browser, sh_release)
+
+            self._tab_show_texts = [
+                sh_history,
+                sh_details,
+                sh_licenses,
+                sh_notices,
+                sh_privacy,
+                sh_release
+            ]
+            self._tab_hide_texts = [
+                hi_history,
+                hi_details,
+                hi_licenses,
+                hi_notices,
+                hi_privacy,
+                hi_release
+            ]
+
+            self.tabs.currentChanged.connect(self._on_tab_changed)
+            self._update_tab_labels(self.tabs.currentIndex())
 
             layout.addWidget(self.tabs)
 
@@ -122,3 +161,23 @@ class SobreDialog(QDialog):
 
         except Exception as e:
             logger.error(f"Erro ao criar dialog sobre: {e}", exc_info=True)
+
+    def _on_tab_changed(self, index):
+        try:
+            self._update_tab_labels(index)
+
+        except Exception as e:
+            logger.error(f"Erro ao atualizar rótulos das abas: {e}", exc_info=True)
+
+    def _update_tab_labels(self, current_index):
+        count = self.tabs.count()
+        while len(self._tab_show_texts) < count:
+            self._tab_show_texts.append("")
+
+        while len(self._tab_hide_texts) < count:
+            self._tab_hide_texts.append("")
+
+        for i in range(count):
+            show = self._tab_show_texts[i] or ""
+            hide = self._tab_hide_texts[i] or ""
+            self.tabs.setTabText(i, hide if i == current_index else show)

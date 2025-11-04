@@ -164,6 +164,10 @@
         <translation>Histórico</translation>
     </message>
     <message>
+        <source>hide_history</source>
+        <translation>Ocultar Histórico</translation>
+    </message>
+    <message>
         <source>show_details</source>
         <translation>Detalhes</translation>
     </message>
@@ -210,6 +214,10 @@
     <message>
         <source>show_release_notes</source>
         <translation>Notas de versão</translation>
+    </message>
+    <message>
+        <source>hide_release_notes</source>
+        <translation>Ocultar notas de versão</translation>
     </message>
     <message>
         <source>Arquivo</source>

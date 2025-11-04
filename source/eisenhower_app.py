@@ -20,6 +20,8 @@ from source.GerenciamentoUI.ui_06_remove_task import remove_task as ui_remove_ta
 from source.GerenciamentoUI.ui_07_save_tasks import save_tasks as ui_save_tasks
 from source.GerenciamentoUI.ui_08_load_tasks import load_tasks as ui_load_tasks
 from source.GerenciamentoUI.ui_09_Calendar import Calendar
+from utils.LogManager import LogManager
+logger = LogManager.get_logger()
 
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
@@ -68,8 +70,8 @@ class EisenhowerMatrixApp(QMainWindow):
             self.setCentralWidget(container)
             self._hide_legacy_calendar_button()
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao inicializar UI: {e}", exc_info=True)
 
     def _hide_legacy_calendar_button(self):
         try:
@@ -80,11 +82,139 @@ class EisenhowerMatrixApp(QMainWindow):
                 }:
                     btn.hide()
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao ocultar botão legado do calendário: {e}", exc_info=True)
 
     def add_placeholder(self, list_widget, text):
         core_add_placeholder(self, list_widget, text)
+
+    def _is_group_header(self, item):
+        try:
+            return item.data(Qt.UserRole + 1) == "group_header"
+
+        except Exception:
+            return False
+
+    def _time_group_label(self, time_str: str) -> str:
+        try:
+            hh = int((time_str or "0:0").split(":")[0])
+
+        except Exception:
+            hh = 0
+
+        return f"{hh:02d}:00–{hh:02d}:59"
+
+    def _time_key(self, time_str: str):
+        if not time_str:
+            return (999, 999)
+
+        try:
+            parts = time_str.split(":")
+            return (int(parts[0]), int(parts[1]))
+
+        except Exception:
+            return (999, 999)
+
+    def insert_task_into_quadrant_list(self, lst, item):
+        data = item.data(Qt.UserRole) or {}
+        time_str = data.get("time")
+        if not time_str:
+            lst.addItem(item)
+            return
+
+        if lst.count() == 1 and not (lst.item(0).flags() & Qt.ItemIsSelectable):
+            lst.clear()
+
+        label = self._time_group_label(time_str)
+
+        header_index = None
+        insert_header_index = None
+        existing_headers = []
+        for i in range(lst.count()):
+            it = lst.item(i)
+            if not it:
+                continue
+
+            if self._is_group_header(it):
+                existing_headers.append((i, it.text()))
+
+        for idx, text in existing_headers:
+            if text == label:
+                header_index = idx
+                break
+
+        if header_index is None:
+            try:
+                hour = int(label.split(":")[0])
+
+            except Exception:
+                hour = 0
+
+            insert_header_index = lst.count()
+            for idx, text in existing_headers:
+                try:
+                    h2 = int(text.split(":")[0])
+
+                except Exception:
+                    h2 = 0
+
+                if hour < h2:
+                    insert_header_index = idx
+                    break
+
+            from PySide6.QtWidgets import QListWidgetItem
+            header = QListWidgetItem(label)
+            from PySide6.QtCore import Qt as _Qt
+            header.setFlags((header.flags() & ~_Qt.ItemIsSelectable) & ~_Qt.ItemIsEnabled)
+            header.setData(_Qt.UserRole + 1, "group_header")
+            lst.insertItem(insert_header_index, header)
+            header_index = insert_header_index
+
+        start = header_index + 1
+        end = lst.count()
+        for i in range(start, lst.count()):
+            it = lst.item(i)
+            if it and self._is_group_header(it):
+                end = i
+                break
+
+        new_key = (self._time_key(time_str), (data.get("text") or item.text()).lower())
+        pos = end
+        for i in range(start, end):
+            it = lst.item(i)
+            idata = it.data(Qt.UserRole) or {}
+            ikey = (self._time_key(idata.get("time")), (idata.get("text") or it.text()).lower())
+            if new_key < ikey:
+                pos = i
+                break
+
+        lst.insertItem(pos, item)
+
+    def cleanup_time_groups(self, lst):
+        i = 0
+        from PySide6.QtCore import Qt as _Qt
+        while i < lst.count():
+            it = lst.item(i)
+            if it and self._is_group_header(it):
+                if i + 1 >= lst.count() or self._is_group_header(lst.item(i + 1)) or (lst.item(i + 1).flags() & _Qt.ItemIsSelectable) == 0:
+                    j = i + 1
+                    found_task = False
+                    while j < lst.count():
+                        it2 = lst.item(j)
+                        if self._is_group_header(it2):
+                            break
+
+                        if it2.flags() & _Qt.ItemIsSelectable:
+                            found_task = True
+                            break
+
+                        j += 1
+
+                    if not found_task:
+                        lst.takeItem(i)
+                        continue
+
+            i += 1
 
     def add_task(self):
         ui_add_task(self)
@@ -92,8 +222,8 @@ class EisenhowerMatrixApp(QMainWindow):
             if hasattr(self, "calendar_pane") and self.calendar_pane:
                 self.calendar_pane.calendar_panel.update_task_list()
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao atualizar lista de tarefas no calendário: {e}", exc_info=True)
 
     def handle_item_checked(self, item, source_list, target_list):
         ui_handle_item_checked(self, item, source_list, target_list)
@@ -104,11 +234,12 @@ class EisenhowerMatrixApp(QMainWindow):
     def remove_task(self, item, list_widget):
         ui_remove_task(self, item, list_widget)
         try:
+            self.cleanup_time_groups(list_widget)
             if hasattr(self, "calendar_pane") and self.calendar_pane:
                 self.calendar_pane.calendar_panel.update_task_list()
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao remover tarefa: {e}", exc_info=True)
 
     def save_tasks(self):
         ui_save_tasks(self)
@@ -119,8 +250,8 @@ class EisenhowerMatrixApp(QMainWindow):
             if hasattr(self, "calendar_pane") and self.calendar_pane:
                 self.calendar_pane.calendar_panel.update_task_list()
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao carregar tarefas: {e}", exc_info=True)
 
     def atualizar_textos(self):
         core_atualizar_textos(self)
@@ -128,8 +259,8 @@ class EisenhowerMatrixApp(QMainWindow):
             if hasattr(self, "calendar_pane") and self.calendar_pane:
                 self.calendar_pane.on_language_changed()
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao atualizar textos: {e}", exc_info=True)
 
     def atualizar_placeholders(self):
         core_atualizar_placeholders(self)
@@ -145,8 +276,8 @@ class EisenhowerMatrixApp(QMainWindow):
             if hasattr(self, "calendar_pane") and self.calendar_pane:
                 self.calendar_pane.toggle_panel(open_if_hidden=True)
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao abrir calendário: {e}", exc_info=True)
 
     def nova_sessao(self):
         arquivo_novo(self)

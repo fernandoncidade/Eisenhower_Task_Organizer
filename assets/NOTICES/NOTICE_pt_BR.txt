@@ -89,4 +89,4 @@ Notas finais
 - Este documento foi adaptado para refletir as dependências e requisitos de conformidade do projeto EISENHOWER ORGANIZER. Se novos componentes forem adicionados ao projeto, a documentação de licenças será atualizada no pacote de distribuição.
 - Mantenha sempre backups dos seus dados antes de atualizar ou substituir bibliotecas do executável.
 
-Versão do documento: 14 de Outubro de 2025
+Versão do documento: 4 de Novembro de 2025

@@ -2,6 +2,8 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem
 from PySide6.QtCore import Qt
 import os
+from utils.LogManager import LogManager
+logger = LogManager.get_logger()
 
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
@@ -32,8 +34,8 @@ def novo(app):
         if hasattr(app, "calendar_pane") and app.calendar_pane:
             app.calendar_pane.calendar_panel.update_task_list()
 
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Erro ao iniciar nova sessão: {e}", exc_info=True)
 
     QMessageBox.information(app, get_text("Novo"), get_text("Nova sessão iniciada.") or "Nova sessão iniciada.")
 
@@ -46,8 +48,8 @@ def limpar_tudo(app):
         if hasattr(app, "calendar_pane") and app.calendar_pane:
             app.calendar_pane.calendar_panel.update_task_list()
 
-    except Exception:
-        pass
+    except Exception as e:
+        logger.error(f"Erro ao limpar tudo: {e}", exc_info=True)
 
     QMessageBox.information(app, get_text("Limpar"), get_text("Todos os dados foram removidos.") or "Todos os dados foram removidos.")
 
@@ -60,40 +62,64 @@ def abrir_arquivo(app):
     if not path:
         return
 
-    def _parse_text_and_date(raw_text: str):
+    def _parse_text_date_time(raw_text: str):
         base = (raw_text or "").strip()
         date_iso = None
+        time_str = None
         if " — " in base:
             left, right = base.rsplit(" — ", 1)
-            date_disp = right.strip()
+            tail = right.strip()
             try:
-                from PySide6.QtCore import QDate
+                from PySide6.QtCore import QDate, QTime
                 fmts = []
                 try:
                     fmts.append(app.date_input.displayFormat())
 
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.error(f"Erro ao obter formato de data para parsing: {e}", exc_info=True)
 
                 fmts += ["dd/MM/yyyy", "d/M/yyyy", "MM/dd/yyyy", "M/d/yyyy", "yyyy-MM-dd"]
-                for fmt in fmts:
-                    qd = QDate.fromString(date_disp, fmt)
-                    if qd and qd.isValid():
-                        date_iso = qd.toString(Qt.ISODate)
+
+                parts = tail.split()
+                if len(parts) == 2:
+                    d_candidate, t_candidate = parts
+                    for fmt in fmts:
+                        qd = QDate.fromString(d_candidate, fmt)
+                        if qd and qd.isValid():
+                            qt = QTime.fromString(t_candidate, "HH:mm")
+                            if qt.isValid():
+                                date_iso = qd.toString(Qt.ISODate)
+                                time_str = qt.toString("HH:mm")
+                                base = left.strip()
+                                break
+
+                if date_iso is None:
+                    for fmt in fmts:
+                        qd = QDate.fromString(tail, fmt)
+                        if qd and qd.isValid():
+                            date_iso = qd.toString(Qt.ISODate)
+                            base = left.strip()
+                            break
+
+                if date_iso is None:
+                    from PySide6.QtCore import QTime
+                    qt = QTime.fromString(tail, "HH:mm")
+                    if qt.isValid():
+                        time_str = qt.toString("HH:mm")
                         base = left.strip()
-                        break
 
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(f"Erro ao fazer parsing de data/hora: {e}", exc_info=True)
 
-        return base, date_iso
+        return base, date_iso, time_str
 
     ext = os.path.splitext(path)[1].lower()
     if ext == ".xlsx":
         try:
             from openpyxl import load_workbook
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"openpyxl não está disponível: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), get_text("openpyxl não está disponível."))
             return
 
@@ -107,22 +133,34 @@ def abrir_arquivo(app):
                         val = row[0]
                         if val and str(val).strip():
                             raw_text = str(val).strip()
-                            text, date_iso = _parse_text_and_date(raw_text)
+                            text, date_iso, time_str = _parse_text_date_time(raw_text)
                             item = QListWidgetItem(raw_text)
                             item.setFlags(item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                             item.setCheckState(Qt.Checked if completed else Qt.Unchecked)
-                            item.setData(Qt.UserRole, {"text": text, "date": date_iso})
+                            item.setData(Qt.UserRole, {"text": text, "date": date_iso, "time": time_str})
+                            tooltip_lines = []
                             if date_iso:
                                 try:
                                     from PySide6.QtCore import QDate
                                     qd = QDate.fromString(date_iso, Qt.ISODate)
                                     if qd.isValid():
-                                        item.setToolTip(f"{get_text('Data') or 'Data'}: {qd.toString(app.date_input.displayFormat())}")
+                                        tooltip_lines.append(f"{get_text('Data') or 'Data'}: {qd.toString(app.date_input.displayFormat())}")
 
-                                except Exception:
-                                    pass
+                                except Exception as e:
+                                    logger.error(f"Erro ao definir tooltip de data: {e}", exc_info=True)
 
-                            lst.addItem(item)
+                            if time_str:
+                                tooltip_lines.append(f"{get_text('Horário') or 'Horário'}: {time_str}")
+
+                            if tooltip_lines:
+                                item.setToolTip("\n".join(tooltip_lines))
+
+                            try:
+                                app.insert_task_into_quadrant_list(lst, item)
+
+                            except Exception as e:
+                                logger.error(f"Erro ao inserir tarefa na lista do quadrante: {e}", exc_info=True)
+                                lst.addItem(item)
 
             populate_from_sheet("quadrant1", app.quadrant1_list, completed=False)
             populate_from_sheet("quadrant1_completed", app.quadrant1_completed_list, completed=True)
@@ -138,19 +176,21 @@ def abrir_arquivo(app):
                 if hasattr(app, "calendar_pane") and app.calendar_pane:
                     app.calendar_pane.calendar_panel.update_task_list()
 
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(f"Erro ao atualizar lista de tarefas no calendário: {e}", exc_info=True)
 
             QMessageBox.information(app, get_text("Abrir"), get_text("Arquivo importado com sucesso."))
 
         except Exception as e:
+            logger.error(f"Erro ao importar arquivo XLSX: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), f"{get_text('Erro') or 'Erro'}: {e}")
 
     elif ext == ".pdf":
         try:
             from PyPDF2 import PdfReader
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"PyPDF2 não está disponível: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), get_text("PyPDF2 não está disponível para ler PDF."))
             return
 
@@ -162,8 +202,8 @@ def abrir_arquivo(app):
                     page_text = page.extract_text() or ""
                     text += page_text + "\n"
 
-                except Exception:
-                    pass
+                except Exception as e:
+                    logger.error(f"Erro ao extrair texto da página do PDF: {e}", exc_info=True)
 
             import unicodedata, re
             def normalize(s: str) -> str:
@@ -235,22 +275,34 @@ def abrir_arquivo(app):
                 items = segments.get(key, [])
                 for it in items:
                     raw_text = it.strip()
-                    text_only, date_iso = _parse_text_and_date(raw_text)
+                    text_only, date_iso, time_str = _parse_text_date_time(raw_text)
                     item = QListWidgetItem(raw_text)  # mantém exibição
                     item.setFlags(item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                     item.setCheckState(Qt.Checked if completed else Qt.Unchecked)
-                    item.setData(Qt.UserRole, {"text": text_only, "date": date_iso})
+                    item.setData(Qt.UserRole, {"text": text_only, "date": date_iso, "time": time_str})
+                    tooltip_lines = []
                     if date_iso:
                         try:
                             from PySide6.QtCore import QDate
                             qd = QDate.fromString(date_iso, Qt.ISODate)
                             if qd.isValid():
-                                item.setToolTip(f"{get_text('Data') or 'Data'}: {qd.toString(app.date_input.displayFormat())}")
+                                tooltip_lines.append(f"{get_text('Data') or 'Data'}: {qd.toString(app.date_input.displayFormat())}")
 
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            logger.error(f"Erro ao definir tooltip de data no PDF: {e}", exc_info=True)
 
-                    lst.addItem(item)
+                    if time_str:
+                        tooltip_lines.append(f"{get_text('Horário') or 'Horário'}: {time_str}")
+
+                    if tooltip_lines:
+                        item.setToolTip("\n".join(tooltip_lines))
+
+                    try:
+                        app.insert_task_into_quadrant_list(lst, item)
+
+                    except Exception as e:
+                        logger.error(f"Erro ao inserir tarefa na lista do quadrante (PDF): {e}", exc_info=True)
+                        lst.addItem(item)
 
             populate_from_list("quadrant1", app.quadrant1_list, False)
             populate_from_list("quadrant1_completed", app.quadrant1_completed_list, True)
@@ -266,12 +318,13 @@ def abrir_arquivo(app):
                 if hasattr(app, "calendar_pane") and app.calendar_pane:
                     app.calendar_pane.calendar_panel.update_task_list()
 
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(f"Erro ao atualizar lista de tarefas no calendário (PDF): {e}", exc_info=True)
 
             QMessageBox.information(app, get_text("Abrir"), get_text("PDF importado com sucesso."))
 
         except Exception as e:
+            logger.error(f"Erro ao importar arquivo PDF: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), f"{get_text('Erro') or 'Erro'}: {e}")
 
     else:
@@ -287,7 +340,8 @@ def salvar_como(app):
         try:
             from openpyxl import Workbook
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"openpyxl não está disponível para salvar XLSX: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), get_text("openpyxl não está disponível para salvar XLSX."))
             return
 
@@ -296,7 +350,6 @@ def salvar_como(app):
             def write_sheet(name, lst):
                 if name in wb.sheetnames:
                     ws = wb[name]
-
                 else:
                     ws = wb.create_sheet(title=name)
 
@@ -327,6 +380,7 @@ def salvar_como(app):
             QMessageBox.information(app, get_text("Salvar"), get_text("Arquivo salvo com sucesso."))
 
         except Exception as e:
+            logger.error(f"Erro ao salvar arquivo XLSX: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), f"{get_text('Erro') or 'Erro'}: {e}")
 
     elif ext == ".pdf":
@@ -334,7 +388,8 @@ def salvar_como(app):
             from reportlab.lib.pagesizes import A4
             from reportlab.pdfgen import canvas
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"reportlab não está disponível para salvar PDF: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), get_text("reportlab não está disponível para salvar PDF."))
             return
 
@@ -389,6 +444,7 @@ def salvar_como(app):
             QMessageBox.information(app, get_text("Salvar"), get_text("PDF salvo com sucesso."))
 
         except Exception as e:
+            logger.error(f"Erro ao salvar arquivo PDF: {e}", exc_info=True)
             QMessageBox.critical(app, get_text("Erro"), f"{get_text('Erro') or 'Erro'}: {e}")
 
     else:

@@ -1,10 +1,42 @@
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QComboBox, QDateEdit, QCheckBox
+from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale, QTime
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QComboBox, QDateEdit, QCheckBox, QTimeEdit
 from utils.IconUtils import get_icon_path
+from utils.LogManager import LogManager
+logger = LogManager.get_logger()
 
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
+
+class CustomTimeEdit(QTimeEdit):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWrapping(True)
+        self._last_time = self.time()
+
+    def stepBy(self, steps):
+        current_time = self.time()
+        current_section = self.currentSection()
+
+        if current_section == QTimeEdit.MinuteSection:
+            total_minutes = current_time.hour() * 60 + current_time.minute()
+            total_minutes += steps
+
+            if total_minutes < 0:
+                total_minutes = 1439
+
+            elif total_minutes >= 1440:
+                total_minutes = 0
+
+            new_hour = total_minutes // 60
+            new_minute = total_minutes % 60
+            new_time = QTime(new_hour, new_minute, current_time.second())
+            self.setTime(new_time)
+
+        else:
+            super().stepBy(steps)
+
+        self._last_time = self.time()
 
 def init_ui(app):
     app.main_layout = QVBoxLayout()
@@ -33,22 +65,24 @@ def init_ui(app):
                 elif idioma and idioma.startswith("en"):
                     locale = QLocale(QLocale.English, QLocale.UnitedStates)
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"Erro ao aplicar locale à data: {e}", exc_info=True)
             locale = QLocale.system()
 
         app.date_input.setLocale(locale)
         try:
             fmt = locale.dateFormat(QLocale.ShortFormat)
 
-        except Exception:
+        except Exception as e:
+            logger.error(f"Erro ao obter formato de data: {e}", exc_info=True)
             fmt = "dd/MM/yyyy"
 
         try:
             import re
             fmt = re.sub(r'(?<!y)yy(?!y)', 'yyyy', fmt)
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao ajustar formato de data: {e}", exc_info=True)
 
         app.date_input.setDisplayFormat(fmt)
 
@@ -58,10 +92,57 @@ def init_ui(app):
         try:
             app.gerenciador_traducao.idioma_alterado.connect(lambda _: _apply_locale_to_date_input())
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error(f"Erro ao conectar sinal de idioma_alterado para data: {e}", exc_info=True)
 
     input_layout.addWidget(app.date_input)
+
+    app.time_checkbox = QCheckBox(get_text("Vincular horário"))
+    app.time_checkbox.setChecked(True)
+    input_layout.addWidget(app.time_checkbox)
+
+    app.time_input = CustomTimeEdit(app)
+    app.time_input.setDisplayFormat("HH:mm")
+    app.time_input.setEnabled(True)
+    input_layout.addWidget(app.time_input)
+
+    def _apply_locale_to_time_input():
+        try:
+            app.time_input.setDisplayFormat("HH:mm")
+
+        except Exception as e:
+            logger.error(f"Erro ao aplicar locale ao horário: {e}", exc_info=True)
+
+    _apply_locale_to_time_input()
+
+    if hasattr(app, "gerenciador_traducao"):
+        try:
+            app.gerenciador_traducao.idioma_alterado.connect(lambda _: _apply_locale_to_time_input())
+            app.gerenciador_traducao.idioma_alterado.connect(lambda _: app.time_checkbox.setText(get_text("Vincular horário")))
+
+        except Exception as e:
+            logger.error(f"Erro ao conectar sinal de idioma_alterado para horário: {e}", exc_info=True)
+
+    def _on_time_checkbox_toggled(checked: bool):
+        try:
+            app.time_input.setEnabled(checked and app.date_checkbox.isChecked())
+
+        except Exception as e:
+            logger.error(f"Erro ao alternar checkbox de horário: {e}", exc_info=True)
+
+    def _on_date_checkbox_toggled(checked: bool):
+        try:
+            app.time_checkbox.setEnabled(checked)
+            app.time_input.setEnabled(checked and app.time_checkbox.isChecked())
+            if not checked:
+                app.time_checkbox.setChecked(False)
+
+        except Exception as e:
+            logger.error(f"Erro ao alternar checkbox de data: {e}", exc_info=True)
+
+    app.time_checkbox.toggled.connect(_on_time_checkbox_toggled)
+    app.date_checkbox.toggled.connect(_on_date_checkbox_toggled)
+    app.time_checkbox.setEnabled(app.date_checkbox.isChecked())
 
     app.quadrant_selector = QComboBox(app)
     app.quadrant_selector.addItems([
