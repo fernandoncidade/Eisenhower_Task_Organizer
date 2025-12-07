@@ -2,7 +2,7 @@ from PySide6.QtCore import QCoreApplication
 from PySide6.QtWidgets import QFileDialog, QMessageBox, QListWidgetItem
 from PySide6.QtCore import Qt
 import os
-from utils.LogManager import LogManager
+from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
 def get_text(text):

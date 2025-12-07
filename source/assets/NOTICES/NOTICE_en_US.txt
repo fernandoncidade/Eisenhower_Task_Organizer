@@ -1,3 +1,5 @@
+Version 0.0.3.0, November 4, 2025
+
 Third-Party Software Licenses and Attributions Notice
 
 This document lists the main third-party libraries used in the EISENHOWER ORGANIZER project and references to their licenses. The purpose is to comply with distribution requirements (including LGPL compliance for Qt/PySide6 libraries) and provide information for users and integrators. Project dependencies are listed in the requirements.txt file included in the repository/installer.
@@ -88,5 +90,3 @@ Contact for source code requests or license clarifications
 Final notes
 - This document has been adapted to reflect the dependencies and compliance requirements of the EISENHOWER ORGANIZER project. If new components are added to the project, license documentation will be updated in the distribution package.
 - Always keep backups of your data before updating or replacing executable libraries.
-
-Document version: November 4, 2025

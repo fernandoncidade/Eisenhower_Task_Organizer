@@ -56,5 +56,3 @@ By installing, copying, or using the Software distributed as an executable, you 
     This License, together with the Privacy Policy and third-party license documents included in the installer, constitutes the entire agreement between the parties regarding the Software.
 
 Contact for information and support: channels and addresses provided in the installer/distribution.
-
-Date: November 4, 2025

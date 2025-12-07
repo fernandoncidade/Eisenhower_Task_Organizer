@@ -1,9 +1,9 @@
 import sys
 from PySide6.QtWidgets import QApplication
 from source.eisenhower_app import EisenhowerMatrixApp
-from language.tr_01_gerenciadorTraducao import GerenciadorTraducao
-from utils.LogManager import LogManager
-# from utils.TrialManager import TrialManager
+from source.language.tr_01_gerenciadorTraducao import GerenciadorTraducao
+from source.utils.LogManager import LogManager
+# from source.utils.TrialManager import TrialManager
 
 logger = LogManager.get_logger()
 

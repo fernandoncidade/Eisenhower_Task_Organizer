@@ -1,4 +1,6 @@
 CONTRATO DE LICENCIAMENTO COMERCIAL - EISENHOWER ORGANIZER
+Versão: 0.0.3.0
+Data: 4 de novembro de 2025
 
 Este Contrato de Licenciamento Comercial ("Contrato") é celebrado entre:
 
@@ -78,8 +80,6 @@ DISPOSIÇÕES FINAIS
 - Declara-se que, quando aplicável, a Declaração de Acessibilidade e documentação relativas à conformidade com requisitos da Microsoft Store estão incluídas no pacote de instalação e disponíveis para consulta pelo LICENCIADO.
 
 E por estarem justas e contratadas, as partes celebram o presente Contrato.
-
-Brasil, Paraná, São José dos Pinhais, 4 de Novembro de 2025
 
 Fernando Nillsson Cidade
 ______________________________

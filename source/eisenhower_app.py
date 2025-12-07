@@ -1,9 +1,9 @@
 import os
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QPushButton
-from utils.IconUtils import get_icon_path
-from utils.CaminhoPersistenteUtils import obter_caminho_persistente
-from language.tr_01_gerenciadorTraducao import GerenciadorTraducao
+from source.utils.IconUtils import get_icon_path
+from source.utils.CaminhoPersistenteUtils import obter_caminho_persistente
+from source.language.tr_01_gerenciadorTraducao import GerenciadorTraducao
 from source.InterfaceCore.incore_01_initUI import init_ui as core_init_ui
 from source.InterfaceCore.incore_02_add_placeholder import add_placeholder as core_add_placeholder
 from source.InterfaceCore.incore_03_criar_menu_configuracoes import criar_menu_configuracoes as core_criar_menu
@@ -20,7 +20,7 @@ from source.GerenciamentoUI.ui_06_remove_task import remove_task as ui_remove_ta
 from source.GerenciamentoUI.ui_07_save_tasks import save_tasks as ui_save_tasks
 from source.GerenciamentoUI.ui_08_load_tasks import load_tasks as ui_load_tasks
 from source.GerenciamentoUI.ui_09_Calendar import Calendar
-from utils.LogManager import LogManager
+from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
 def get_text(text):

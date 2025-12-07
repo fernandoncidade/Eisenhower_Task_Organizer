@@ -1,8 +1,8 @@
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale, QTime
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QComboBox, QDateEdit, QCheckBox, QTimeEdit
-from utils.IconUtils import get_icon_path
-from utils.LogManager import LogManager
+from source.utils.IconUtils import get_icon_path
+from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
 def get_text(text):

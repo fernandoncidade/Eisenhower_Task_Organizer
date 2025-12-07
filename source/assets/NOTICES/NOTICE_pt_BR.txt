@@ -1,3 +1,5 @@
+Versão 0.0.3.0, 4 de novembro de 2025
+
 Aviso de Licenças e Atribuições de Software de Terceiros
 
 Este documento lista as principais bibliotecas de terceiros utilizadas no projeto EISENHOWER ORGANIZER e as referências às suas licenças. O objetivo é cumprir requisitos de distribuição (incluindo conformidade LGPL para bibliotecas Qt/PySide6) e oferecer informações para usuários e integradores. As dependências do projeto estão listadas no arquivo requirements.txt incluído no repositório/instalador.
@@ -88,5 +90,3 @@ Contato para pedidos de código-fonte ou esclarecimentos sobre licenças
 Notas finais
 - Este documento foi adaptado para refletir as dependências e requisitos de conformidade do projeto EISENHOWER ORGANIZER. Se novos componentes forem adicionados ao projeto, a documentação de licenças será atualizada no pacote de distribuição.
 - Mantenha sempre backups dos seus dados antes de atualizar ou substituir bibliotecas do executável.
-
-Versão do documento: 4 de Novembro de 2025

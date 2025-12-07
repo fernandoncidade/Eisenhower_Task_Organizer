@@ -1,5 +1,5 @@
 LICENÇA DE USO DE USUÁRIO FINAL - EISENHOWER ORGANIZER
-Versão 0.0.3.0, 4 de Novembro de 2025
+Versão 0.0.3.0, 4 de novembro de 2025
 
 Copyright (c) 2025 Fernando Nillsson Cidade. Todos os direitos reservados.
 
@@ -56,5 +56,3 @@ Ao instalar, copiar ou utilizar o Software distribuído como executável, você 
     Esta Licença, juntamente com a Política de Privacidade e documentos de licença de terceiros incluídos no instalador, constitui o acordo completo entre as partes com relação ao Software.
 
 Contato para informações e suporte: canais e endereços fornecidos no instalador/distribuição.
-
-Data: 4 de Novembro de 2025

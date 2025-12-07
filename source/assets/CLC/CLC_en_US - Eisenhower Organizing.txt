@@ -1,4 +1,6 @@
 COMMERCIAL LICENSING AGREEMENT - EISENHOWER ORGANIZER
+Version: 0.0.3.0
+Date: November 4, 2025
 
 This Commercial Licensing Agreement ("Agreement") is entered into by and between:
 
@@ -78,8 +80,6 @@ FINAL PROVISIONS
 - It is declared that, where applicable, the Accessibility Statement and documentation related to compliance with Microsoft Store requirements are included in the installation package and available for the LICENSEE's consultation.
 
 IN WITNESS WHEREOF, the parties execute this Agreement.
-
-Brazil, Paraná, São José dos Pinhais, November 4, 2025
 
 Fernando Nillsson Cidade
 ______________________________

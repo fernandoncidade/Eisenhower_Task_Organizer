@@ -1,6 +1,6 @@
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QListWidgetItem, QMessageBox
-from utils.LogManager import LogManager
+from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
 def get_text(text):
