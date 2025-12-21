@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QListWidget, QAbstractItemView
+from PySide6.QtGui import QDrag
 from source.utils.LogManager import LogManager
 
 logger = LogManager.get_logger()
@@ -15,8 +16,25 @@ class TaskListWidget(QListWidget):
         self.setDragEnabled(True)
         self.setAcceptDrops(True)
         self.setDropIndicatorShown(True)
-        self.setDefaultDropAction(Qt.MoveAction)
+        self.setDefaultDropAction(Qt.CopyAction)
         self.setDragDropMode(QAbstractItemView.DragDrop)
+
+    def startDrag(self, supportedActions):
+        try:
+            if not self.selectedItems():
+                return
+
+            mime = self.model().mimeData(self.selectedIndexes())
+            if mime is None:
+                return
+
+            drag = QDrag(self)
+            drag.setMimeData(mime)
+
+            drag.exec(Qt.CopyAction)
+
+        except Exception as e:
+            logger.error(f"Erro no startDrag do TaskListWidget: {e}", exc_info=True)
 
     def dropEvent(self, event):
         try:
@@ -62,7 +80,8 @@ class TaskListWidget(QListWidget):
             except Exception as e:
                 logger.error(f"Erro ao atualizar calendário após drag-and-drop: {e}", exc_info=True)
 
-            event.acceptProposedAction()
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
 
         except Exception as e:
             logger.error(f"Erro no dropEvent do TaskListWidget: {e}", exc_info=True)

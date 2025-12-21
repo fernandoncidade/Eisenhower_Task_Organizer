@@ -1,5 +1,5 @@
 LICENÇA DE USO DE USUÁRIO FINAL - EISENHOWER ORGANIZER
-Versão 0.0.4.0, 21 de dezembro de 2025
+Versão 0.0.5.0, 21 de dezembro de 2025
 
 Copyright (c) 2025 Fernando Nillsson Cidade. Todos os direitos reservados.
 

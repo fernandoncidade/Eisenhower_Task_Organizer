@@ -1,3 +1,26 @@
+RELEASE NOTES: Version 0.0.5.0
+Date: 21 December 2025
+
+Key improvements and features:
+- Drag-and-drop reliability: improvements to avoid invalid moves (does not allow dropping on the same list; ignores non-selectable items).
+- Safer processing: signals are blocked during drag-and-drop operations to prevent duplicate events.
+- Auto-save and synchronization: the task list is automatically saved after drag-and-drop and the calendar pane is updated immediately.
+- Consistent actions and indicators: default drop action set to copy and drop indicator improved for more predictable behavior.
+- Improved logging and error handling: more informative logs and exception handling to reduce crashes visible to the user.
+
+Important fixes:
+- Prevents task loss when moving items between lists.
+- Ignores drag-and-drop operations with no valid items, avoiding inconsistent states.
+- Improved visual updates of lists and the calendar after moves.
+
+Notes:
+- The application continues to operate offline — no data is sent to external servers.
+- Auto-save remains active; update to apply the drag-and-drop and stability improvements.
+
+
+______________________________
+
+
 RELEASE NOTES: Version 0.0.4.0
 Date: 21 December 2025
 

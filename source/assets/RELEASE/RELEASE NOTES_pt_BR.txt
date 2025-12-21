@@ -1,3 +1,26 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.5.0
+Data: 21 de dezembro de 2025
+
+Novidades e melhorias principais:
+- Confiabilidade do arrastar e soltar: melhorias para evitar movimentos inválidos (não permite soltar na mesma lista; ignora itens não selecionáveis).
+- Processamento mais seguro: sinais são bloqueados durante operações de drag-and-drop para evitar eventos duplicados.
+- Salvamento automático e sincronização: lista de tarefas é salva automaticamente após arrastar/soltar e o painel de calendário é atualizado imediatamente.
+- Ações e indicadores consistentes: ação padrão de drop definida como cópia e indicador de drop aprimorado para comportamento mais previsível.
+- Registro e tratamento de erros melhorados: logs mais informativos e tratamento de exceções para reduzir falhas visíveis ao usuário.
+
+Correções importantes:
+- Evita perda de tarefas ao mover itens entre listas.
+- Ignora operações de drag-and-drop sem itens válidos, evitando estados inconsistentes.
+- Melhora na atualização visual das listas e do calendário após movimentos.
+
+Observações:
+- O aplicativo continua operando offline — nenhum dado é enviado para servidores externos.
+- O salvamento automático permanece ativo; atualize para aplicar as melhorias de arrastar/soltar e estabilidade.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.4.0
 Data: 21 de dezembro de 2025
 
