@@ -1,3 +1,29 @@
+RELEASE NOTES: Version 0.0.4.0
+Date: 21 December 2025
+
+Key improvements and features:
+- Time grouping: tasks with a time now appear grouped by hour range (e.g., 09:00–09:59) within each quadrant, making it easier to view the day.
+- Improved ordering: tasks are sorted by time first and then by text to help you find items quickly.
+- Drag-and-drop support: move tasks between quadrants and between completed lists intuitively using drag-and-drop.
+- Improved date/time edit dialog: easier to reset or remove a task's date and time; options respect the application's locale date/time format.
+- More comfortable time inputs: time control uses wrapping behavior for smoother minute navigation.
+- Calendar pane integration: the side calendar panel remains integrated and automatically updates the task list when items change.
+- Localization and formats: better language support and automatic adjustment of date/time formats based on the selected language.
+- Usability: refinements to labels, placeholders and context menus (move task, reset date, remove) for a clearer workflow.
+
+Important fixes:
+- Automatic removal of empty time headers to avoid orphaned items in lists.
+- Fixes to prevent task loss when moving/editing items and improved error handling for common operations.
+- Small adjustments to keep placeholders consistent when lists become empty.
+
+Notes:
+- The application continues to operate offline — no data is sent to external servers.
+- Auto-save remains active; please update to apply the new ordering and grouping to your tasks.
+
+
+______________________________
+
+
 RELEASE NOTES: Version 0.0.3.0
 Date: November 4, 2025
 

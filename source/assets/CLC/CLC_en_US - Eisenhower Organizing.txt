@@ -1,6 +1,6 @@
 COMMERCIAL LICENSING AGREEMENT - EISENHOWER ORGANIZER
-Version: 0.0.3.0
-Date: November 4, 2025
+Version: 0.0.4.0
+Date: December 21, 2025
 
 This Commercial Licensing Agreement ("Agreement") is entered into by and between:
 

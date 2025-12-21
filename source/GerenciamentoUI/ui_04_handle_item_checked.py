@@ -24,3 +24,10 @@ def handle_item_checked(app, item, source_list, target_list):
         target_list.blockSignals(False)
 
     app.save_tasks()
+
+    try:
+        if hasattr(app, "calendar_pane") and app.calendar_pane:
+            app.calendar_pane.calendar_panel.update_task_list()
+
+    except Exception as e:
+        logger.error(f"Erro ao atualizar lista de tarefas no calendário: {e}", exc_info=True)

@@ -1,8 +1,9 @@
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale, QTime
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QListWidget, QComboBox, QDateEdit, QCheckBox, QTimeEdit
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QDateEdit, QCheckBox, QTimeEdit
 from source.utils.IconUtils import get_icon_path
 from source.utils.LogManager import LogManager
+from source.InterfaceCore.incore_10_task_list_widget import TaskListWidget
 logger = LogManager.get_logger()
 
 def get_text(text):
@@ -175,10 +176,10 @@ def init_ui(app):
 
     app.quadrant1_layout = QVBoxLayout()
     app.quadrant1_label = QLabel(get_text("Importante e Urgente"))
-    app.quadrant1_list = QListWidget()
+    app.quadrant1_list = TaskListWidget(app, is_completed=False)
     app.add_placeholder(app.quadrant1_list, get_text("1º Quadrante"))
     app.quadrant1_completed_label = QLabel(get_text("Concluídas"))
-    app.quadrant1_completed_list = QListWidget()
+    app.quadrant1_completed_list = TaskListWidget(app, is_completed=True)
     app.add_placeholder(app.quadrant1_completed_list, get_text("Nenhuma Tarefa Concluída"))
     app.quadrant1_layout.addWidget(app.quadrant1_label)
     app.quadrant1_layout.addWidget(app.quadrant1_list)
@@ -187,10 +188,10 @@ def init_ui(app):
 
     app.quadrant2_layout = QVBoxLayout()
     app.quadrant2_label = QLabel(get_text("Importante, mas Não Urgente"))
-    app.quadrant2_list = QListWidget()
+    app.quadrant2_list = TaskListWidget(app, is_completed=False)
     app.add_placeholder(app.quadrant2_list, get_text("2º Quadrante"))
     app.quadrant2_completed_label = QLabel(get_text("Concluídas"))
-    app.quadrant2_completed_list = QListWidget()
+    app.quadrant2_completed_list = TaskListWidget(app, is_completed=True)
     app.add_placeholder(app.quadrant2_completed_list, get_text("Nenhuma Tarefa Concluída"))
     app.quadrant2_layout.addWidget(app.quadrant2_label)
     app.quadrant2_layout.addWidget(app.quadrant2_list)
@@ -199,10 +200,10 @@ def init_ui(app):
 
     app.quadrant3_layout = QVBoxLayout()
     app.quadrant3_label = QLabel(get_text("Não Importante, mas Urgente"))
-    app.quadrant3_list = QListWidget()
+    app.quadrant3_list = TaskListWidget(app, is_completed=False)
     app.add_placeholder(app.quadrant3_list, get_text("3º Quadrante"))
     app.quadrant3_completed_label = QLabel(get_text("Concluídas"))
-    app.quadrant3_completed_list = QListWidget()
+    app.quadrant3_completed_list = TaskListWidget(app, is_completed=True)
     app.add_placeholder(app.quadrant3_completed_list, get_text("Nenhuma Tarefa Concluída"))
     app.quadrant3_layout.addWidget(app.quadrant3_label)
     app.quadrant3_layout.addWidget(app.quadrant3_list)
@@ -211,10 +212,10 @@ def init_ui(app):
 
     app.quadrant4_layout = QVBoxLayout()
     app.quadrant4_label = QLabel(get_text("Não Importante e Não Urgente"))
-    app.quadrant4_list = QListWidget()
+    app.quadrant4_list = TaskListWidget(app, is_completed=False)
     app.add_placeholder(app.quadrant4_list, get_text("4º Quadrante"))
     app.quadrant4_completed_label = QLabel(get_text("Concluídas"))
-    app.quadrant4_completed_list = QListWidget()
+    app.quadrant4_completed_list = TaskListWidget(app, is_completed=True)
     app.add_placeholder(app.quadrant4_completed_list, get_text("Nenhuma Tarefa Concluída"))
     app.quadrant4_layout.addWidget(app.quadrant4_label)
     app.quadrant4_layout.addWidget(app.quadrant4_list)

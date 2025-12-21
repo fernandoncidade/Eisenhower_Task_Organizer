@@ -20,6 +20,8 @@ from source.GerenciamentoUI.ui_06_remove_task import remove_task as ui_remove_ta
 from source.GerenciamentoUI.ui_07_save_tasks import save_tasks as ui_save_tasks
 from source.GerenciamentoUI.ui_08_load_tasks import load_tasks as ui_load_tasks
 from source.GerenciamentoUI.ui_09_Calendar import Calendar
+from source.GerenciamentoUI.ui_10_edit_task import edit_task_datetime as ui_edit_task_datetime
+from source.GerenciamentoUI.ui_10_edit_task import move_task_to_quadrant as ui_move_task_to_quadrant
 from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
@@ -293,3 +295,9 @@ class EisenhowerMatrixApp(QMainWindow):
 
     def sair_app(self):
         arquivo_sair(self)
+
+    def edit_task_datetime(self, item, list_widget):
+        ui_edit_task_datetime(self, item, list_widget)
+
+    def move_task_to_quadrant(self, item, source_list, target_list):
+        ui_move_task_to_quadrant(self, item, source_list, target_list)

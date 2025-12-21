@@ -32,30 +32,28 @@ def move_item_between_lists(app, item, source, target, new_check_state):
         if hasattr(app, "cleanup_time_groups"):
             app.cleanup_time_groups(source)
 
-        if source.count() == 0:
-            if source in (app.quadrant1_list,):
-                app.add_placeholder(app.quadrant1_list, get_text("1º Quadrante"))
+        def _has_selectable_items(lst) -> bool:
+            for i in range(lst.count()):
+                it = lst.item(i)
+                if it and (it.flags() & Qt.ItemIsSelectable):
+                    return True
 
-            if source in (app.quadrant2_list,):
-                app.add_placeholder(app.quadrant2_list, get_text("2º Quadrante"))
+            return False
 
-            if source in (app.quadrant3_list,):
-                app.add_placeholder(app.quadrant3_list, get_text("3º Quadrante"))
+        if not _has_selectable_items(source):
+            source.clear()
 
-            if source in (app.quadrant4_list,):
-                app.add_placeholder(app.quadrant4_list, get_text("4º Quadrante"))
-
-            if source in (app.quadrant1_completed_list,):
-                app.add_placeholder(app.quadrant1_completed_list, get_text("Nenhuma Tarefa Concluída"))
-
-            if source in (app.quadrant2_completed_list,):
-                app.add_placeholder(app.quadrant2_completed_list, get_text("Nenhuma Tarefa Concluída"))
-
-            if source in (app.quadrant3_completed_list,):
-                app.add_placeholder(app.quadrant3_completed_list, get_text("Nenhuma Tarefa Concluída"))
-
-            if source in (app.quadrant4_completed_list,):
-                app.add_placeholder(app.quadrant4_completed_list, get_text("Nenhuma Tarefa Concluída"))
+            placeholders = {
+                app.quadrant1_list: get_text("1º Quadrante"),
+                app.quadrant2_list: get_text("2º Quadrante"),
+                app.quadrant3_list: get_text("3º Quadrante"),
+                app.quadrant4_list: get_text("4º Quadrante"),
+                app.quadrant1_completed_list: get_text("Nenhuma Tarefa Concluída"),
+                app.quadrant2_completed_list: get_text("Nenhuma Tarefa Concluída"),
+                app.quadrant3_completed_list: get_text("Nenhuma Tarefa Concluída"),
+                app.quadrant4_completed_list: get_text("Nenhuma Tarefa Concluída"),
+            }
+            app.add_placeholder(source, placeholders.get(source, get_text("Nenhuma Tarefa Concluída")))
 
         if target.count() == 1 and not (target.item(0).flags() & Qt.ItemIsSelectable):
             target.clear()

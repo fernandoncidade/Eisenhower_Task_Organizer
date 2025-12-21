@@ -37,10 +37,18 @@ def add_task(app):
             if lst.count() == 1 and not (lst.item(0).flags() & Qt.ItemIsSelectable):
                 lst.clear()
 
-        clear_placeholder_if_needed(app.quadrant1_list)
-        clear_placeholder_if_needed(app.quadrant2_list)
-        clear_placeholder_if_needed(app.quadrant3_list)
-        clear_placeholder_if_needed(app.quadrant4_list)
+        quadrant_map = {
+            0: app.quadrant1_list,
+            1: app.quadrant2_list,
+            2: app.quadrant3_list,
+            3: app.quadrant4_list,
+        }
+        target_list = quadrant_map.get(selected_quadrant)
+        if target_list is None:
+            logger.error(f"Quadrante inválido selecionado: {selected_quadrant}")
+            return
+
+        clear_placeholder_if_needed(target_list)
 
         display_text = task_text
         if date_str:
@@ -56,17 +64,7 @@ def add_task(app):
         task_item.setData(Qt.UserRole, {"text": task_text, "date": date_str, "time": time_str})
         task_item.setToolTip(tooltip_text)
 
-        if selected_quadrant == 0:
-            app.insert_task_into_quadrant_list(app.quadrant1_list, task_item)
-
-        elif selected_quadrant == 1:
-            app.insert_task_into_quadrant_list(app.quadrant2_list, task_item)
-
-        elif selected_quadrant == 2:
-            app.insert_task_into_quadrant_list(app.quadrant3_list, task_item)
-
-        elif selected_quadrant == 3:
-            app.insert_task_into_quadrant_list(app.quadrant4_list, task_item)
+        app.insert_task_into_quadrant_list(target_list, task_item)
 
         app.task_input.clear()
         app.save_tasks()

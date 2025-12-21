@@ -1,5 +1,31 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.4.0
+Data: 21 de dezembro de 2025
+
+Novidades e melhorias principais:
+- Agrupamento por horário: tarefas com horário agora aparecem agrupadas por faixa de hora (ex.: 09:00–09:59) dentro de cada quadrante, facilitando a visualização do dia.
+- Ordenação aprimorada: tarefas são ordenadas por horário e, em seguida, por texto, para facilitar a localização rápida.
+- Suporte a arrastar e soltar: movimente tarefas entre quadrantes e entre listas de concluídas de forma intuitiva com drag-and-drop.
+- Diálogo de edição de data/horário melhorado: agora é mais fácil redefinir ou remover a data e o horário de uma tarefa; opções respeitam o formato de data/hora do idioma.
+- Entradas de tempo mais confortáveis: controle de horário com comportamento contínuo (wrapping) para navegação por minutos.
+- Integração do painel de calendário: painel lateral de calendário permanece integrado e atualiza automaticamente a lista de tarefas ao alterar itens.
+- Localização e formatos: melhor suporte a idiomas e ajuste automático dos formatos de data/hora conforme o idioma selecionado.
+- Usabilidade: aprimoramentos em textos, placeholders e menus de contexto (mover tarefa, redefinir data, remover) para fluxo de trabalho mais claro.
+
+Correções importantes:
+- Remoção automática de cabeçalhos de horário vazios para evitar itens órfãos na lista.
+- Correções que evitam perda de tarefas ao mover/editar itens e melhor tratamento de erros em operações comuns.
+- Pequenos ajustes para manter a consistência dos placeholders quando listas ficam vazias.
+
+Observações:
+- O aplicativo continua operando offline — nenhum dado é enviado para servidores externos.
+- Salvamento automático permanece ativo; atualize para garantir que a nova ordenação e agrupamento sejam aplicados às suas tarefas.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.3.0
-Data: 4 de Novembro de 2025
+Data: 4 de novembro de 2025
 
 Novidades e melhorias principais:
 - Agora é possível vincular um horário a cada tarefa.
@@ -10,7 +36,7 @@ ______________________________
 
 
 NOTAS DE LANÇAMENTO: Versão 0.0.2.0
-Data: 14 de Outubro de 2025
+Data: 14 de outubro de 2025
 
 Resumo para usuários
 - Nova versão com recursos úteis e correções que tornam o aplicativo mais fácil de usar e mais confiável.
@@ -36,7 +62,7 @@ ______________________________
 
 
 NOTAS DE LANÇAMENTO: Versão 0.0.1.0
-Data: 23 de Setembro de 2025
+Data: 23 de setembro de 2025
 
 Nesta nova versão:
 

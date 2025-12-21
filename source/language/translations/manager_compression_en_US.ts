@@ -315,5 +315,17 @@
         <source>trial_paid_link</source>
         <translation>Click here to access the paid version</translation>
     </message>
+    <message>
+        <source>Redefinir data...</source>
+        <translation>Reset date...</translation>
+    </message>
+    <message>
+        <source>Mover para</source>
+        <translation>Move to</translation>
+    </message>
+    <message>
+        <source>Redefinir data da tarefa</source>
+        <translation>Reset task date</translation>
+    </message>
 </context>
 </TS>
