@@ -1,3 +1,30 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.6.0
+Data: 22 de dezembro de 2025
+
+Novidades e melhorias principais:
+- Badges de contagem no calendário: o calendário agora exibe pequenos balões (badges) no canto superior direito dos dias que possuem tarefas, mostrando quantas tarefas estão vinculadas àquela data.
+- Contadores por dia, semana e mês: além do contador por dia, o calendário mantém contagens agregadas por semana e por mês, acessíveis via API do widget (métodos públicos para obter contagens).
+- Borda "nativa" ao redor do calendário: o QCalendarWidget passou a ser envolvido por um container que desenha a moldura nativa do Qt (QStyle::PE_FrameLineEdit). A borda acompanha automaticamente o tema do sistema (claro/escuro) via paleta do Qt.
+- Integração automática com tarefas: ao atualizar a lista de tarefas (adições, remoções ou edições), os badges e os destaques do calendário são atualizados automaticamente.
+- Cores adaptativas: os badges usam cores da paleta nativa (QPalette.highlight / highlightedText), garantindo boa visibilidade tanto em temas claros quanto escuros.
+- Destaque visual de datas com tarefas: datas que têm tarefas continuam sendo destacadas (background semitransparente) e agora convivem com os badges.
+- Reaproveitamento entre diálogo e painel: tanto o diálogo de calendário quanto o painel lateral usam o widget de badges e compartilham a mesma lógica de coleta/filtragem de tarefas e atualização visual.
+- Robustez e logs: operações de inicialização, pintura e atualizações estão protegidas por tratamento de exceções com logging, reduzindo falhas visíveis ao usuário e facilitando diagnóstico.
+
+Correções importantes:
+- Atualização consistente do visual: corrige casos em que o calendário não mostrava imediatamente alterações na lista de tarefas (badges e destaques agora são atualizados sempre que a lista muda).
+- Borda responsiva a mudanças de tema: a moldura agora redesenha corretamente ao trocar entre modo claro e escuro do sistema.
+- Evita desenho incorreto de badges: o tamanho e a posição dos badges foram ajustados para caberem corretamente nas células, evitando sobreposição de texto.
+
+Observações:
+- A nova borda é desenhada pelo Qt (QStyle::PE_FrameLineEdit) para manter aparência consistente com outros controles (ex.: QLineEdit).
+- Caso queira exibir contadores de semana/mês na interface, os métodos já expostos no widget permitem recuperá-los para uso adicional.
+- Nenhum comportamento de salvamento ou formato de arquivo foi alterado; esta versão foca em melhorias visuais e de sincronização entre listas e calendário.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.5.0
 Data: 21 de dezembro de 2025
 

@@ -1,12 +1,163 @@
 from PySide6.QtWidgets import (QDialog, QVBoxLayout, QCalendarWidget, QComboBox, QListWidget, QListWidgetItem, QLabel, QHBoxLayout, QAbstractItemView, QWidget)
-from PySide6.QtCore import Qt, QDate, QCoreApplication, QLocale, QSize
-from PySide6.QtGui import QPainter, QFontMetrics, QTextCharFormat, QBrush, QColor, QFont
-from PySide6.QtWidgets import QSizePolicy
+from PySide6.QtCore import Qt, QDate, QCoreApplication, QLocale, QSize, QEvent, QRect
+from PySide6.QtGui import QPainter, QFontMetrics, QTextCharFormat, QBrush, QColor, QFont, QPen
+from PySide6.QtWidgets import QSizePolicy, QStyle, QStyleOptionFrame
 from source.utils.LogManager import LogManager
+from collections import defaultdict
 logger = LogManager.get_logger()
 
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
+
+
+class BadgeCalendarWidget(QCalendarWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        try:
+            self._task_counts_by_date = {}  # {date_str: count}
+            self._task_counts_by_week = {}  # {week_number: count}
+            self._task_counts_by_month = {}  # {(year, month): count}
+
+        except Exception as e:
+            logger.error(f"Erro ao inicializar BadgeCalendarWidget: {e}", exc_info=True)
+
+    def set_task_counts(self, task_dates_iso):
+        try:
+            self._task_counts_by_date.clear()
+            self._task_counts_by_week.clear()
+            self._task_counts_by_month.clear()
+
+            for date_str in task_dates_iso:
+                qdate = QDate.fromString(date_str, Qt.ISODate)
+                if not qdate.isValid():
+                    continue
+
+                self._task_counts_by_date[date_str] = self._task_counts_by_date.get(date_str, 0) + 1
+
+                week_num = qdate.weekNumber()[0]
+                self._task_counts_by_week[week_num] = self._task_counts_by_week.get(week_num, 0) + 1
+
+                month_key = (qdate.year(), qdate.month())
+                self._task_counts_by_month[month_key] = self._task_counts_by_month.get(month_key, 0) + 1
+
+            self.updateCells()
+
+        except Exception as e:
+            logger.error(f"Erro ao definir contadores de tarefas: {e}", exc_info=True)
+
+    def paintCell(self, painter, rect, date):
+        try:
+            super().paintCell(painter, rect, date)
+
+            date_str = date.toString(Qt.ISODate)
+            count = self._task_counts_by_date.get(date_str, 0)
+
+            if count > 0:
+                self._draw_badge(painter, rect, count)
+
+        except Exception as e:
+            logger.error(f"Erro ao pintar célula do calendário: {e}", exc_info=True)
+
+    def _draw_badge(self, painter, cell_rect, count):
+        try:
+            painter.save()
+            painter.setRenderHint(QPainter.Antialiasing)
+
+            text = str(count)
+            font = QFont(painter.font())
+            font.setPointSize(max(7, font.pointSize() - 2))
+            font.setBold(True)
+            painter.setFont(font)
+
+            fm = QFontMetrics(font)
+            text_width = fm.horizontalAdvance(text)
+            text_height = fm.height()
+
+            badge_size = max(16, text_width + 8)
+            badge_size = min(badge_size, cell_rect.width() // 2)
+
+            badge_x = cell_rect.right() - badge_size - 2
+            badge_y = cell_rect.top() + 2
+            badge_rect = QRect(badge_x, badge_y, badge_size, badge_size)
+
+            pal = self.palette()
+            badge_color = pal.highlight().color()
+            badge_color.setAlpha(200)
+
+            painter.setPen(Qt.NoPen)
+            painter.setBrush(QBrush(badge_color))
+            painter.drawEllipse(badge_rect)
+
+            text_color = pal.highlightedText().color()
+            painter.setPen(QPen(text_color))
+            painter.drawText(badge_rect, Qt.AlignCenter, text)
+
+            painter.restore()
+
+        except Exception as e:
+            logger.error(f"Erro ao desenhar badge: {e}", exc_info=True)
+
+    def get_week_count(self, week_number):
+        return self._task_counts_by_week.get(week_number, 0)
+
+    def get_month_count(self, year, month):
+        return self._task_counts_by_month.get((year, month), 0)
+
+
+class NativeLineEditFrame(QWidget):
+    def __init__(self, child: QWidget, parent=None):
+        super().__init__(parent)
+        try:
+            self._child = child
+            self._layout = QVBoxLayout(self)
+            self._layout.setSpacing(0)
+            self._layout.setContentsMargins(0, 0, 0, 0)
+            self._layout.addWidget(self._child)
+            self._update_margins_from_style()
+
+        except Exception as e:
+            logger.error(f"Erro ao inicializar NativeLineEditFrame: {e}", exc_info=True)
+
+    def _frame_width(self) -> int:
+        try:
+            return int(self.style().pixelMetric(QStyle.PM_DefaultFrameWidth, None, self))
+
+        except Exception:
+            return 2
+
+    def _update_margins_from_style(self):
+        try:
+            fw = self._frame_width()
+            self._layout.setContentsMargins(fw, fw, fw, fw)
+            self.updateGeometry()
+            self.update()
+
+        except Exception as e:
+            logger.error(f"Erro ao atualizar margens do frame nativo: {e}", exc_info=True)
+
+    def changeEvent(self, event):
+        try:
+            if event and event.type() in (QEvent.StyleChange, QEvent.PaletteChange, QEvent.ApplicationPaletteChange):
+                self._update_margins_from_style()
+
+            super().changeEvent(event)
+
+        except Exception as e:
+            logger.error(f"Erro ao processar changeEvent no frame nativo: {e}", exc_info=True)
+
+    def paintEvent(self, event):
+        try:
+            painter = QPainter(self)
+            opt = QStyleOptionFrame()
+            opt.initFrom(self)
+            opt.rect = self.rect()
+            opt.lineWidth = self._frame_width()
+            opt.midLineWidth = 0
+            opt.state |= QStyle.State_Sunken
+            self.style().drawPrimitive(QStyle.PE_FrameLineEdit, opt, painter, self)
+
+        except Exception as e:
+            logger.error(f"Erro ao pintar frame nativo: {e}", exc_info=True)
 
 
 class CalendarDialog(QDialog):
@@ -21,18 +172,20 @@ class CalendarDialog(QDialog):
 
             main_layout = QVBoxLayout(self)
 
-            self.calendar = QCalendarWidget(self)
+            self.calendar = BadgeCalendarWidget(self)
             initial_date = app.date_input.date() if hasattr(app, "date_input") else QDate.currentDate()
             self.calendar.setSelectedDate(initial_date)
 
             hint = self.calendar.minimumSizeHint()
             fallback = QSize(300, 260)
-            self.calendar.setMinimumSize(hint.expandedTo(fallback))
-            self.calendar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+
+            self.calendar_frame = NativeLineEditFrame(self.calendar, self)
+            self.calendar_frame.setMinimumSize(hint.expandedTo(fallback))
+            self.calendar_frame.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
 
             self._apply_locale_to_calendar()
 
-            main_layout.addWidget(self.calendar)
+            main_layout.addWidget(self.calendar_frame)
 
             controls_layout = QHBoxLayout()
             self.filter_label = QLabel(get_text("Exibir por"), self)
@@ -117,6 +270,7 @@ class CalendarDialog(QDialog):
         try:
             self.tasks_list.clear()
             self._apply_highlighted_dates()
+            self._update_badge_counts()
             selected_date = self.calendar.selectedDate()
             filter_mode = self.filter_combo.currentData()
             filtered = []
@@ -169,6 +323,19 @@ class CalendarDialog(QDialog):
 
         except Exception as e:
             logger.error(f"Erro ao atualizar lista de tarefas do calendário: {e}", exc_info=True)
+
+    def _update_badge_counts(self):
+        try:
+            task_dates = []
+            for task in self._collect_tasks():
+                date_str = task.get("date")
+                if date_str:
+                    task_dates.append(date_str)
+            
+            self.calendar.set_task_counts(task_dates)
+
+        except Exception as e:
+            logger.error(f"Erro ao atualizar contadores de badges: {e}", exc_info=True)
 
     def _on_language_changed(self):
         try:
@@ -336,15 +503,19 @@ class CalendarPanel(QWidget):
             main_layout.setContentsMargins(5, 1, 5, 9)
             main_layout.setSpacing(6)
 
-            self.calendar = QCalendarWidget(self)
+            self.calendar = BadgeCalendarWidget(self)
             initial_date = app.date_input.date() if hasattr(app, "date_input") else QDate.currentDate()
             self.calendar.setSelectedDate(initial_date)
+
             hint = self.calendar.minimumSizeHint()
             fallback = QSize(300, 260)
-            self.calendar.setMinimumSize(hint.expandedTo(fallback))
-            self.calendar.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+
+            self.calendar_frame = NativeLineEditFrame(self.calendar, self)
+            self.calendar_frame.setMinimumSize(hint.expandedTo(fallback))
+            self.calendar_frame.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+
             self._apply_locale_to_calendar()
-            main_layout.addWidget(self.calendar)
+            main_layout.addWidget(self.calendar_frame)
 
             controls_layout = QHBoxLayout()
             self.filter_label = QLabel(get_text("Exibir por"), self)
@@ -387,6 +558,13 @@ class CalendarPanel(QWidget):
 
         except Exception as e:
             logger.error(f"Erro ao atualizar lista de tarefas: {e}", exc_info=True)
+
+    def _update_badge_counts(self):
+        try:
+            return CalendarDialog._update_badge_counts(self)
+
+        except Exception as e:
+            logger.error(f"Erro ao atualizar contadores de badges: {e}", exc_info=True)
 
     def _get_task_dates(self):
         try:

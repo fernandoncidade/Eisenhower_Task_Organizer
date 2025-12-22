@@ -1,3 +1,30 @@
+RELEASE NOTES: Version 0.0.6.0
+Date: December 22, 2025
+
+Main new features and improvements:
+- Counting badges in the calendar: the calendar now displays small balloons (badges) in the top-right corner of days that have tasks, showing how many tasks are linked to that date.
+- Counters by day, week and month: in addition to per-day counts, the calendar keeps aggregated counts by week and by month, accessible via the widget API (public methods to retrieve counts).
+- "Native" border around the calendar: the QCalendarWidget is now wrapped by a container that draws the native Qt frame (QStyle::PE_FrameLineEdit). The border automatically follows the system theme (light/dark) via Qt's palette.
+- Automatic integration with tasks: when the task list is updated (additions, removals or edits), the calendar's badges and highlights are refreshed automatically.
+- Adaptive colors: badges use native palette colors (QPalette.highlight / highlightedText), ensuring good visibility in both light and dark themes.
+- Visual highlighting of dates with tasks: dates that have tasks remain highlighted (semi-transparent background) and now coexist with badges.
+- Reuse between dialog and panel: both the calendar dialog and the side panel use the badge widget and share the same logic for collecting/filtering tasks and visual updates.
+- Robustness and logging: initialization, painting and update operations are protected with exception handling and logging, reducing visible errors for users and easing diagnosis.
+
+Important fixes:
+- Consistent visual updates: fixes cases where the calendar did not immediately reflect changes in the task list (badges and highlights are now updated whenever the list changes).
+- Border responsive to theme changes: the frame now redraws correctly when switching between system light and dark modes.
+- Prevents incorrect badge drawing: badge size and position have been adjusted to fit correctly within cells, avoiding text overlap.
+
+Notes:
+- The new frame is drawn by Qt (QStyle::PE_FrameLineEdit) to keep appearance consistent with other controls (e.g., QLineEdit).
+- If you want to show week/month counters in the UI, the methods already exposed in the widget allow retrieving them for additional use.
+- No save behavior or file formats were changed; this release focuses on visual improvements and synchronization between lists and the calendar.
+
+
+______________________________
+
+
 RELEASE NOTES: Version 0.0.5.0
 Date: 21 December 2025
 

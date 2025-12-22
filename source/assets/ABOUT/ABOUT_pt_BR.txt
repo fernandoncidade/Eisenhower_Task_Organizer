@@ -1,5 +1,5 @@
 Projeto: EISENHOWER ORGANIZER
-Versão: 0.0.5.0
+Versão: 0.0.6.0
 Autores: Fernando Nillsson Cidade
 
 Descrição resumida:
