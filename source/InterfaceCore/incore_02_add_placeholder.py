@@ -9,6 +9,7 @@ def add_placeholder(app, list_widget, text):
         placeholder_item.setFlags(placeholder_item.flags() & ~Qt.ItemIsSelectable)
         placeholder_item.setForeground(Qt.gray)
         placeholder_item.setData(Qt.UserRole, None)
+        placeholder_item.setData(Qt.UserRole + 2, True)
         list_widget.addItem(placeholder_item)
 
     except Exception as e:

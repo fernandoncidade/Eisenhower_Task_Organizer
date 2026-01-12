@@ -1,5 +1,5 @@
 Project: EISENHOWER ORGANIZER
-Version: 0.0.6.0
+Version: 0.0.7.0
 Authors: Fernando Nillsson Cidade
 
 Short description:

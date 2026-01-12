@@ -1,6 +1,6 @@
 CONTRATO DE LICENCIAMENTO COMERCIAL - EISENHOWER ORGANIZER
-Versão: 0.0.6.0
-Data: 22 de dezembro de 2025
+Versão: 0.0.7.0
+Data: 12 de janeiro de 2026
 
 Este Contrato de Licenciamento Comercial ("Contrato") é celebrado entre:
 

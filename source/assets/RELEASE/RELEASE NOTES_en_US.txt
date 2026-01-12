@@ -1,3 +1,26 @@
+RELEASE NOTES: Version 0.0.7.0
+Date: January 12, 2026
+
+Main features and improvements:
+- Localization and date/time format improvements: the date/time component respects the active locale (via the translation manager) and automatically adjusts displayed formats.
+- Updated text and display of the "About" dialog: version 0.0.7.0 and release notes integrated into the dialog for direct access.
+- Task rendering enhancements: tooltips with date and time, base text preserved, and more consistent formatting when updating lists.
+- More reliable integration with the calendar panel: lists and badges are updated automatically when tasks are added, edited, or removed.
+- Refined time-based grouping and time group management: avoids orphan/duplicated headers and maintains stable ordering of time-tagged tasks.
+
+Important fixes:
+- Fixed visual update issues in lists and calendar (badges, highlights, and placeholders).
+- Robustness: expanded exception handling and logging to reduce user-visible failures.
+- Adjustments to placeholders and non-selectable item behavior to prevent incorrect placeholders.
+
+Notes:
+- Changes focused on usability and robustness; no file format or saving mechanism was changed.
+- App continues to operate offline — no data is sent to external servers.
+
+
+______________________________
+
+
 RELEASE NOTES: Version 0.0.6.0
 Date: December 22, 2025
 

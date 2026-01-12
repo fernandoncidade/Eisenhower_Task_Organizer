@@ -1,5 +1,5 @@
 import os
-from PySide6.QtCore import QCoreApplication, Qt
+from PySide6.QtCore import QCoreApplication, Qt, QTimer
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QPushButton
 from source.utils.IconUtils import get_icon_path
 from source.utils.CaminhoPersistenteUtils import obter_caminho_persistente
@@ -256,13 +256,20 @@ class EisenhowerMatrixApp(QMainWindow):
             logger.error(f"Erro ao carregar tarefas: {e}", exc_info=True)
 
     def atualizar_textos(self):
-        core_atualizar_textos(self)
-        try:
-            if hasattr(self, "calendar_pane") and self.calendar_pane:
-                self.calendar_pane.on_language_changed()
+        def _apply_updates():
+            try:
+                core_atualizar_textos(self)
+                if hasattr(self, "calendar_pane") and self.calendar_pane:
+                    self.calendar_pane.on_language_changed()
 
-        except Exception as e:
-            logger.error(f"Erro ao atualizar textos: {e}", exc_info=True)
+            except Exception as e:
+                logger.error(f"Erro ao atualizar textos: {e}", exc_info=True)
+
+        try:
+            QTimer.singleShot(0, _apply_updates)
+
+        except Exception:
+            _apply_updates()
 
     def atualizar_placeholders(self):
         core_atualizar_placeholders(self)

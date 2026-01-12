@@ -60,20 +60,20 @@
         <translation>Adicionar Tarefa</translation>
     </message>
     <message>
-        <source>Importante e Urgente</source>
-        <translation>Importante e Urgente</translation>
+        <source>🔴 Importante e Urgente</source>
+        <translation>🔴 Importante e Urgente</translation>
     </message>
     <message>
-        <source>Importante, mas Não Urgente</source>
-        <translation>Importante, mas Não Urgente</translation>
+        <source>🟠 Importante, mas Não Urgente</source>
+        <translation>🟠 Importante, mas Não Urgente</translation>
     </message>
     <message>
-        <source>Não Importante, mas Urgente</source>
-        <translation>Não Importante, mas Urgente</translation>
+        <source>🟡 Não Importante, mas Urgente</source>
+        <translation>🟡 Não Importante, mas Urgente</translation>
     </message>
     <message>
-        <source>Não Importante e Não Urgente</source>
-        <translation>Não Importante e Não Urgente</translation>
+        <source>🟢 Não Importante e Não Urgente</source>
+        <translation>🟢 Não Importante e Não Urgente</translation>
     </message>
     <message>
         <source>Mostrar Calendário</source>

@@ -1,3 +1,26 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.7.0
+Data: 12 de janeiro de 2026
+
+Novidades e melhorias principais:
+- Melhorias de localização e formato de data/horário: o componente de data/hora respeita o locale ativo (via gerenciador de tradução) e ajusta automaticamente os formatos mostrados.
+- Atualização no texto e exibição do diálogo "Sobre": versão 0.0.7.0 e notas de lançamento integradas ao diálogo para acesso direto.
+- Aprimoramento da renderização das tarefas: tooltips com data e horário, texto base preservado e formatação mais consistente ao atualizar listas.
+- Integração mais confiável com o painel de calendário: listas e badges são atualizados automaticamente ao adicionar/editar/remover tarefas.
+- Agrupamento por horário e gerenciamento de grupos de tempo refinados: evita cabeçalhos órfãos/dobrados e mantém ordenação estável das tarefas com horário.
+
+Correções importantes:
+- Correção de problemas de atualização visual em listas e calendário (badges, destaques e placeholders).
+- Robustez: tratamento de exceções e logs ampliados para reduzir falhas visíveis ao usuário.
+- Ajustes em placeholders e comportamento de itens não selecionáveis para evitar placeholders incorretos.
+
+Observações:
+- Mudanças focadas em usabilidade e robustez; nenhum formato de arquivo ou mecanismo de salvamento foi alterado.
+- Aplicativo continua operando offline — nenhum dado é enviado a servidores externos.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.6.0
 Data: 22 de dezembro de 2025
 

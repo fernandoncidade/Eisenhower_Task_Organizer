@@ -7,6 +7,8 @@ def get_text(text):
 
 def atualizar_placeholders(app):
     try:
+        placeholder_role = Qt.UserRole + 2
+        group_header_role = Qt.UserRole + 1
         placeholders = {
             app.quadrant1_list: get_text("1º Quadrante"),
             app.quadrant2_list: get_text("2º Quadrante"),
@@ -18,9 +20,27 @@ def atualizar_placeholders(app):
             app.quadrant4_completed_list: get_text("Nenhuma Tarefa Concluída"),
         }
         for lst, texto in placeholders.items():
+            if lst is None:
+                continue
+
             for i in range(lst.count()):
                 item = lst.item(i)
-                if item and not (item.flags() & Qt.ItemIsSelectable):
+                if not item:
+                    continue
+
+                is_placeholder = item.data(placeholder_role) is True
+
+                if not is_placeholder:
+                    try:
+                        is_group_header = item.data(group_header_role) == "group_header"
+
+                    except Exception:
+                        is_group_header = False
+
+                    if (not (item.flags() & Qt.ItemIsSelectable)) and (item.data(Qt.UserRole) is None) and (not is_group_header):
+                        is_placeholder = True
+
+                if is_placeholder:
                     item.setText(texto)
                     break
 

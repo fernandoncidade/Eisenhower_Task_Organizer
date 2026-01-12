@@ -35,7 +35,7 @@ def exibir_sobre(app):
 
         cabecalho_fixo = (
             "<h3>EISENHOWER ORGANIZER</h3>"
-            f"<p><b>{get_text('version') or 'Version'}:</b> 0.0.6.0</p>"
+            f"<p><b>{get_text('version') or 'Version'}:</b> 0.0.7.0</p>"
             f"<p><b>{get_text('authors') or 'Authors'}:</b> Fernando Nillsson Cidade</p>"
             f"<p><b>{get_text('description') or 'Description'}:</b> {get_text('description_text') or ''}</p>"
         )

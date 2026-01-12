@@ -60,20 +60,20 @@
         <translation>Add Task</translation>
     </message>
     <message>
-        <source>Importante e Urgente</source>
-        <translation>Important and Urgent</translation>
+        <source>🔴 Importante e Urgente</source>
+        <translation>🔴 Important and Urgent</translation>
     </message>
     <message>
-        <source>Importante, mas Não Urgente</source>
-        <translation>Important but Not Urgent</translation>
+        <source>🟠 Importante, mas Não Urgente</source>
+        <translation>🟠 Important but Not Urgent</translation>
     </message>
     <message>
-        <source>Não Importante, mas Urgente</source>
-        <translation>Not Important but Urgent</translation>
+        <source>🟡 Não Importante, mas Urgente</source>
+        <translation>🟡 Not Important but Urgent</translation>
     </message>
     <message>
-        <source>Não Importante e Não Urgente</source>
-        <translation>Not Important and Not Urgent</translation>
+        <source>🟢 Não Importante e Não Urgente</source>
+        <translation>🟢 Not Important and Not Urgent</translation>
     </message>
     <message>
         <source>Mostrar Calendário</source>

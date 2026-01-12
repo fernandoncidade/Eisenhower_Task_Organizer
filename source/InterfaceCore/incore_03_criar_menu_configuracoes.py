@@ -9,7 +9,10 @@ def get_text(text):
 
 def criar_menu_configuracoes(app):
     try:
-        app.menuBar().clear()
+        mb = app.menuBar()
+        for act in list(mb.actions()):
+            mb.removeAction(act)
+
         arquivo_menu = QMenu(get_text("Arquivo"), app)
         acao_novo = QAction(get_text("Novo"), app)
         acao_novo.triggered.connect(app.nova_sessao)
