@@ -108,7 +108,29 @@ class GerenciadorTraducao(QObject):
             app = self.app or QCoreApplication.instance()
             trans_dir = QLibraryInfo.location(QLibraryInfo.TranslationsPath)
             if not trans_dir or not os.path.isdir(trans_dir):
-                return False
+                alt_dir = None
+
+                try:
+                    import PySide6
+                    possible = os.path.join(os.path.dirname(PySide6.__file__), "Qt", "translations")
+                    if os.path.isdir(possible):
+                        alt_dir = possible
+
+                except Exception:
+                    pass
+
+                if not alt_dir:
+                    meipass = getattr(sys, "_MEIPASS", None)
+                    if meipass:
+                        possible = os.path.join(meipass, "translations")
+                        if os.path.isdir(possible):
+                            alt_dir = possible
+
+                if alt_dir:
+                    trans_dir = alt_dir
+
+                else:
+                    return False
 
             alvo = codigo_idioma.lower()
             curto = alvo.split('_')[0]
