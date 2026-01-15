@@ -1,6 +1,6 @@
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale, QTime
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QDateEdit, QCheckBox, QTimeEdit
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox, QDateEdit, QCheckBox, QTimeEdit, QSizePolicy
 from source.utils.IconUtils import get_icon_path
 from source.utils.LogManager import LogManager
 from source.InterfaceCore.incore_10_task_list_widget import TaskListWidget
@@ -41,15 +41,36 @@ class CustomTimeEdit(QTimeEdit):
 
 def init_ui(app):
     app.main_layout = QVBoxLayout()
-    input_layout = QHBoxLayout()
+
+    input_layout_top = QHBoxLayout()
 
     app.task_input = QLineEdit(app)
     app.task_input.setPlaceholderText(get_text("Adicione uma tarefa..."))
-    input_layout.addWidget(app.task_input)
+    app.task_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+    input_layout_top.addWidget(app.task_input, 1)
+
+    app.add_button = QPushButton(get_text("Adicionar Tarefa"))
+    add_icon_path = get_icon_path("organizador.png")
+    if add_icon_path:
+        app.add_button.setIcon(QIcon(add_icon_path))
+
+    app.add_button.clicked.connect(app.add_task)
+    input_layout_top.addWidget(app.add_button)
+
+    app.calendar_button = QPushButton(get_text("Calendário"))
+    add_icon_path = get_icon_path("calendar.png")
+    if add_icon_path:
+        app.calendar_button.setIcon(QIcon(add_icon_path))
+
+    app.calendar_button.clicked.connect(app.open_calendar)
+    input_layout_top.addWidget(app.calendar_button)
+
+    second_row_layout = QHBoxLayout()
+    second_row_layout.setAlignment(Qt.AlignLeft)
 
     app.date_checkbox = QCheckBox(get_text("Vincular data"))
     app.date_checkbox.setChecked(True)
-    input_layout.addWidget(app.date_checkbox)
+    second_row_layout.addWidget(app.date_checkbox)
 
     app.date_input = QDateEdit(app)
     app.date_input.setCalendarPopup(True)
@@ -96,16 +117,16 @@ def init_ui(app):
         except Exception as e:
             logger.error(f"Erro ao conectar sinal de idioma_alterado para data: {e}", exc_info=True)
 
-    input_layout.addWidget(app.date_input)
+    second_row_layout.addWidget(app.date_input)
 
     app.time_checkbox = QCheckBox(get_text("Vincular horário"))
     app.time_checkbox.setChecked(True)
-    input_layout.addWidget(app.time_checkbox)
+    second_row_layout.addWidget(app.time_checkbox)
 
     app.time_input = CustomTimeEdit(app)
     app.time_input.setDisplayFormat("HH:mm")
     app.time_input.setEnabled(True)
-    input_layout.addWidget(app.time_input)
+    second_row_layout.addWidget(app.time_input)
 
     def _apply_locale_to_time_input():
         try:
@@ -152,25 +173,10 @@ def init_ui(app):
         get_text("🟡 Não Importante, mas Urgente"),
         get_text("🟢 Não Importante e Não Urgente")
     ])
-    input_layout.addWidget(app.quadrant_selector)
+    second_row_layout.addWidget(app.quadrant_selector)
 
-    app.add_button = QPushButton(get_text("Adicionar Tarefa"))
-    add_icon_path = get_icon_path("organizador.png")
-    if add_icon_path:
-        app.add_button.setIcon(QIcon(add_icon_path))
-
-    app.add_button.clicked.connect(app.add_task)
-    input_layout.addWidget(app.add_button)
-
-    app.calendar_button = QPushButton(get_text("Calendário"))
-    add_icon_path = get_icon_path("calendar.png")
-    if add_icon_path:
-        app.calendar_button.setIcon(QIcon(add_icon_path))
-
-    app.calendar_button.clicked.connect(app.open_calendar)
-    input_layout.addWidget(app.calendar_button)
-
-    app.main_layout.addLayout(input_layout)
+    app.main_layout.addLayout(input_layout_top)
+    app.main_layout.addLayout(second_row_layout)
 
     quadrant_layout = QHBoxLayout()
 

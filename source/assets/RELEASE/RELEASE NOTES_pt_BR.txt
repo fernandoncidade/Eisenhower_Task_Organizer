@@ -1,3 +1,55 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.8.0
+Data: 15 de janeiro de 2026
+
+Novidades e melhorias principais:
+- Aprimoramento da internacionalização e formato de data/horário:
+  - Gerenciador de tradução com instalação e remoção segura de tradutores (inclui tentativa de carregamento de traduções do Qt).
+  - Aplicação dinâmica de QLocale conforme idioma selecionado; formatos de data ajustados automaticamente (inclui tratamento para anos com 'yyyy').
+  - Sinais de alteração de idioma propagados para componentes que exibem data/horário (calendário popup, diálogo de edição de data/horário, inputs).
+
+- Diálogo "Sobre" e Notas de Versão integradas:
+  - Janela "Sobre" atualizada para exibir notas de versão incorporadas e múltiplas abas (Histórico, Detalhes, Licenças, Avisos, Política de Privacidade e Notas de Versão).
+  - Cabeçalho com versão atualizada para 0.0.8.0 e melhor retradução em tempo de execução.
+
+- Visualizador de Manual refeito e navegável:
+  - Manual exibido em diálogo não modal com lista de seções e visualização com links âncora.
+  - Navegação por seção, preservação da posição atual ao trocar idioma, mapeamento de posições para saltos rápidos.
+  - Melhorias visuais: tamanhos de fonte relativos, títulos em destaque e suporte a ícone do aplicativo.
+
+- Edição de data/horário de tarefas e renderização:
+  - Diálogo de edição de data/horário aplica locale ao calendário popup e ao time edit; sincronização correta entre "Vincular data" e "Vincular horário".
+  - Exibição das tarefas atualiza tooltip com data/horário formatados, preserva texto base e evita cabeçalhos de horário órfãos.
+  - Operações de inserção/remoção de itens usam bloqueio de sinais e limpeza de grupos de horário para evitar estados inconsistentes.
+
+- Interface e atalhos:
+  - Menu de configurações recriado: entradas de idioma marcáveis, atalhos de teclado (Ctrl+M para calendário, Ctrl+Shift+M para manual, F1/Help para Sobre, Alt+A/I/O para abrir menus) com contexto adequado.
+  - Remoção segura de atalhos antigos antes de criar novos, reduzindo conflitos.
+
+- Controles de horário:
+  - CustomTimeEdit com comportamento de wrapping contínuo por minutos (navegação por minutos mais confortável).
+  - TimeEdit recebe display format consistente e atualização ao trocar idioma.
+
+- Robustez, logs e tratamento de exceções:
+  - Ampliação de logging e tratamento de exceções em pontos críticos (tradução, carregamento de arquivos, atualização de UI), facilitando diagnóstico sem travamentos.
+
+Correções importantes:
+- Correção do número da versão exibido no diálogo "Sobre" (agora 0.0.8.0).
+- Correções na aplicação dinâmica de tradução do Qt e na busca por arquivos .qm do sistema, evitando falha silenciosa quando traduções não estão presentes.
+- Evita placeholders incorretos e listas com itens não selecionáveis ao inserir/editar tarefas.
+- Evita perda ou duplicação de tarefas ao mover entre listas: operações bloqueiam sinais e atualizam calendário e persistência de forma consistente.
+- Correções de atualização de interface ao trocar idioma em runtime (diálogos, botões padrão, labels e menus).
+- Correções no comportamento do calendário popup e nos formatos exibidos de data/horário.
+- Correções de falhas ao abrir o Manual repetidamente (reutilização e foco do diálogo) e ao navegar por âncoras.
+
+Observações:
+- Mudanças focadas em usabilidade, localização e robustez; nenhum formato de arquivo ou mecanismo de salvamento foi alterado.
+- Aplicativo continua operando offline — nenhum dado é enviado a servidores externos.
+- Para diagnóstico, verifique os logs no diretório de persistência do usuário.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.7.0
 Data: 12 de janeiro de 2026
 

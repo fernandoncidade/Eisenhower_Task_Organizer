@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-from PySide6.QtCore import QTranslator, QCoreApplication, Signal, QObject
+from PySide6.QtCore import QTranslator, QCoreApplication, Signal, QObject, QLibraryInfo, QLocale
 from source.utils.CaminhoPersistenteUtils import obter_caminho_persistente
 from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
@@ -14,9 +14,10 @@ class GerenciadorTraducao(QObject):
         super().__init__()
         try:
             self.tradutor = None
+            self.qt_translator = None
             self.idioma_atual = "pt_BR"
             self.app = QCoreApplication.instance()
-            self.idioma_padrao = "pt_BR"
+            self.idioma_padrao = "en_US"
 
             self.idiomas_disponiveis = {
                 "pt_BR": "Português (Brasil)",
@@ -24,7 +25,7 @@ class GerenciadorTraducao(QObject):
             }
 
             self.dir_traducoes = os.path.join(
-                getattr(sys, '_MEIPASS', os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),
+                getattr(sys, '_MEIPASS', os.path.dirname(os.path.dirname(os.path.realpath(__file__)))) ,
                 "language", "translations"
             )
 
@@ -38,7 +39,7 @@ class GerenciadorTraducao(QObject):
         config_path = self.obter_caminho_configuracao()
         try:
             if os.path.exists(config_path):
-                with open(config_path, 'r') as f:
+                with open(config_path, 'r', encoding='utf-8') as f:
                     config = json.load(f)
                     if 'idioma' in config:
                         self.idioma_atual = config['idioma']
@@ -51,48 +52,154 @@ class GerenciadorTraducao(QObject):
         try:
             os.makedirs(os.path.dirname(config_path), exist_ok=True)
             config = {'idioma': self.idioma_atual}
-            with open(config_path, 'w') as f:
-                json.dump(config, f)
+            with open(config_path, 'w', encoding='utf-8') as f:
+                json.dump(config, f, ensure_ascii=False, indent=2)
 
         except Exception as e:
             logger.error(f"Erro ao salvar configuração de idioma: {e}", exc_info=True)
 
     def obter_caminho_configuracao(self):
         try:
-            return os.path.join(obter_caminho_persistente(), 'language.json')
+            persist_dir = obter_caminho_persistente()
+            return os.path.join(persist_dir, 'language.json')
 
         except Exception as e:
             logger.error(f"Erro ao obter caminho de configuração: {e}", exc_info=True)
-            return "language.json"
+
+    def _remover_tradutor_instalado(self):
+        try:
+            app = self.app or QCoreApplication.instance()
+            trad_instalado = app.property("_translator_gerenciador_traducao")
+            if isinstance(trad_instalado, QTranslator):
+                app.removeTranslator(trad_instalado)
+                app.setProperty("_translator_gerenciador_traducao", None)
+
+            if self.tradutor and self.tradutor is not trad_instalado:
+                try:
+                    app.removeTranslator(self.tradutor)
+
+                except Exception:
+                    pass
+
+            trad_qt = app.property("_qt_translator_gerenciador_traducao")
+            if isinstance(trad_qt, QTranslator):
+                try:
+                    app.removeTranslator(trad_qt)
+                    app.setProperty("_qt_translator_gerenciador_traducao", None)
+
+                except Exception:
+                    pass
+
+            if self.qt_translator and self.qt_translator is not trad_qt:
+                try:
+                    app.removeTranslator(self.qt_translator)
+
+                except Exception:
+                    pass
+
+            self.tradutor = None
+            self.qt_translator = None
+
+        except Exception as e:
+            logger.error(f"Erro ao remover tradutor instalado: {e}", exc_info=True)
+
+    def _load_qt_translator_for_locale(self, codigo_idioma):
+        try:
+            app = self.app or QCoreApplication.instance()
+            trans_dir = QLibraryInfo.location(QLibraryInfo.TranslationsPath)
+            if not trans_dir or not os.path.isdir(trans_dir):
+                return False
+
+            alvo = codigo_idioma.lower()
+            curto = alvo.split('_')[0]
+
+            candidatos = []
+            try:
+                for f in os.listdir(trans_dir):
+                    if not f.lower().endswith('.qm'):
+                        continue
+
+                    fn = f.lower()
+                    if f"_{alvo}.qm" in fn:
+                        candidatos.insert(0, f)
+
+                    elif f"_{curto}.qm" in fn:
+                        candidatos.append(f)
+
+            except Exception:
+                pass
+
+            if not candidatos:
+                return False
+
+            escolhido = candidatos[0]
+            caminho = os.path.join(trans_dir, escolhido)
+            qt_trans = QTranslator()
+            if qt_trans.load(caminho):
+                app.installTranslator(qt_trans)
+                app.setProperty("_qt_translator_gerenciador_traducao", qt_trans)
+                self.qt_translator = qt_trans
+                logger.debug(f"Qt translator carregado: {caminho}")
+                return True
+
+            return False
+
+        except Exception as e:
+            logger.debug(f"Falha ao carregar tradutor do Qt: {e}", exc_info=True)
+            return False
 
     def aplicar_traducao(self):
         try:
-            if self.tradutor:
-                self.app.removeTranslator(self.tradutor)
-                self.tradutor = None
+            app = self.app or QCoreApplication.instance()
 
-            self.tradutor = QTranslator()
+            self._remover_tradutor_instalado()
+
+            try:
+                locale_code = self.idioma_atual.replace('_', '-')
+                QLocale.setDefault(QLocale(locale_code))
+
+            except Exception:
+                pass
+
+            try:
+                self._load_qt_translator_for_locale(self.idioma_atual)
+
+            except Exception as e:
+                logger.debug(f"Erro ao tentar carregar qt translations: {e}", exc_info=True)
 
             arquivo_traducao = f"manager_compression_{self.idioma_atual}.qm"
             caminho_traducao = os.path.join(self.dir_traducoes, arquivo_traducao)
 
+            aplicou_app_trad = False
             if os.path.exists(caminho_traducao):
+                self.tradutor = QTranslator()
                 if self.tradutor.load(caminho_traducao):
-                    self.app.installTranslator(self.tradutor)
-                    return True
+                    app.installTranslator(self.tradutor)
+                    app.setProperty("_translator_gerenciador_traducao", self.tradutor)
+                    aplicou_app_trad = True
 
                 else:
-                    logger.error(f"Erro ao carregar arquivo de tradução: {caminho_traducao}", exc_info=True)
+                    logger.error(f"Erro ao carregar arquivo de tradução: {caminho_traducao}")
 
-            else:
-                logger.error(f"Arquivo de tradução não encontrado: {caminho_traducao}", exc_info=True)
-                logger.error(f"Arquivos disponíveis em {self.dir_traducoes}: {os.listdir(self.dir_traducoes)}", exc_info=True)
+            if aplicou_app_trad or (self.qt_translator is not None):
+                return True
+
+            if self.idioma_atual == self.idioma_padrao:
+                return True
+
+            logger.warning(f"Arquivo de tradução não encontrado: {caminho_traducao}")
+            logger.warning(f"Arquivos disponíveis em {self.dir_traducoes}:")
+            try:
+                for arquivo in os.listdir(self.dir_traducoes):
+                    logger.warning(f"  - {arquivo}")
+
+            except Exception as e:
+                logger.error(f"Erro ao listar diretório: {e}", exc_info=True)
 
             return False
 
         except Exception as e:
             logger.error(f"Erro ao aplicar tradução: {e}", exc_info=True)
-            return False
 
     def definir_idioma(self, codigo_idioma):
         try:
@@ -107,7 +214,6 @@ class GerenciadorTraducao(QObject):
 
         except Exception as e:
             logger.error(f"Erro ao definir idioma: {e}", exc_info=True)
-            return False
 
     def obter_idioma_atual(self):
         try:
@@ -115,7 +221,6 @@ class GerenciadorTraducao(QObject):
 
         except Exception as e:
             logger.error(f"Erro ao obter idioma atual: {e}", exc_info=True)
-            return "pt_BR"
 
     def traduzir_botoes_padrao(self, dialogo):
         try:
@@ -140,7 +245,7 @@ class GerenciadorTraducao(QObject):
             for botao, texto in botoes.items():
                 botao_widget = dialogo.button(botao)
                 if botao_widget:
-                    botao_widget.setText(QCoreApplication.translate("Dialog", texto))
+                    botao_widget.setText(QCoreApplication.translate("App", texto))
 
         except Exception as e:
             logger.error(f"Erro ao traduzir botões padrão: {e}", exc_info=True)

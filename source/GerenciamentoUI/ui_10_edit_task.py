@@ -2,7 +2,6 @@ from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QDateEdit, QCheckBox, QTimeEdit
 from PySide6.QtWidgets import QListWidgetItem
 from source.utils.LogManager import LogManager
-
 logger = LogManager.get_logger()
 
 def get_text(text):

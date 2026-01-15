@@ -1,5 +1,5 @@
 END USER LICENSE AGREEMENT - EISENHOWER ORGANIZER
-Version 0.0.7.0, January 12, 2026
+Version 0.0.8.0, January 15, 2026
 
 Copyright (c) 2025 Fernando Nillsson Cidade. All rights reserved.
 

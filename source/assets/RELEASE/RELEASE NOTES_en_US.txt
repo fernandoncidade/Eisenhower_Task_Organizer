@@ -1,3 +1,55 @@
+RELEASE NOTES: Version 0.0.8.0
+Date: January 15, 2026
+
+Main new features and improvements:
+- Improved internationalization and date/time formatting:
+  - Translation manager with safe installation and removal of translators (includes attempt to load Qt translations).
+  - Dynamic application of QLocale according to the selected language; date formats adjusted automatically (includes handling for years using 'yyyy').
+  - Language-change signals propagated to components that display date/time (calendar popup, edit date/time dialog, inputs).
+
+- About dialog and integrated Release Notes:
+  - About window updated to show embedded release notes and multiple tabs (History, Details, Licenses, Notices, Privacy Policy and Release Notes).
+  - Header updated to show version 0.0.8.0 and improved runtime retranslation.
+
+- Manual viewer revamped and navigable:
+  - Manual displayed in a non-modal dialog with a list of sections and an anchor-linked view.
+  - Section navigation, preservation of the current position when switching language, mapping of positions for quick jumps.
+  - Visual improvements: relative font sizes, emphasized titles and support for the application icon.
+
+- Task date/time editing and rendering:
+  - Edit date/time dialog applies locale to the calendar popup and the time edit; correct synchronization between "Link date" and "Link time".
+  - Task display updates tooltip with formatted date/time, preserves base text and avoids orphaned time headers.
+  - Insert/remove operations use signal blocking and cleanup of time groups to avoid inconsistent states.
+
+- Interface and shortcuts:
+  - Configuration menu rebuilt: checkable language entries, keyboard shortcuts (Ctrl+M for calendar, Ctrl+Shift+M for manual, F1/Help for About, Alt+A/I/O to open menus) with appropriate contexts.
+  - Safe removal of old shortcuts before creating new ones, reducing conflicts.
+
+- Time controls:
+  - CustomTimeEdit with continuous minute-wrapping behavior (more comfortable minute navigation).
+  - TimeEdit receives a consistent display format and updates when switching language.
+
+- Robustness, logging and exception handling:
+  - Expanded logging and exception handling at critical points (translation, file loading, UI updates), facilitating diagnosis without crashes.
+
+Important fixes:
+- Fixed the version number shown in the About dialog (now 0.0.8.0).
+- Fixes in dynamic application of Qt translations and in searching for system .qm files, avoiding silent failures when translations are not present.
+- Prevents incorrect placeholders and lists containing non-selectable items when inserting/editing tasks.
+- Prevents loss or duplication of tasks when moving between lists: operations block signals and update calendar and persistence consistently.
+- Fixes for UI updates when switching language at runtime (dialogs, standard buttons, labels and menus).
+- Fixes for calendar popup behavior and displayed date/time formats.
+- Fixes for crashes when opening the Manual repeatedly (dialog reuse and focus) and when navigating by anchors.
+
+Notes:
+- Changes focused on usability, localization and robustness; no file format or saving mechanism was altered.
+- The application continues to operate offline — no data is sent to external servers.
+- For diagnostics, check the logs in the user's persistence directory.
+
+
+______________________________
+
+
 RELEASE NOTES: Version 0.0.7.0
 Date: January 12, 2026
 

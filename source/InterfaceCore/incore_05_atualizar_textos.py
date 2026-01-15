@@ -2,7 +2,6 @@ from PySide6.QtCore import QCoreApplication
 from source.utils.LogManager import LogManager
 from source.InterfaceCore.incore_11_atualizar_itens_tarefas import atualizar_itens_tarefas
 logger = LogManager.get_logger()
-
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
 
