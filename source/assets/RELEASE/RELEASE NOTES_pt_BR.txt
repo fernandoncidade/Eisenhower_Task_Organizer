@@ -46,6 +46,20 @@ Observações:
 - Aplicativo continua operando offline — nenhum dado é enviado a servidores externos.
 - Para diagnóstico, verifique os logs no diretório de persistência do usuário.
 
+- Melhorias no módulo de interface (incore_01_initUI.py):
+  - Campos de data e horário mais amigáveis: formatos são ajustados automaticamente ao idioma e o controle de horário permite rolagem contínua por minutos, tornando mais fácil escolher horários.
+  - Sincronização entre "Vincular data" e "Vincular horário": ao desmarcar a data, o horário é desativado automaticamente para evitar entradas incoerentes.
+  - Menus de contexto traduzidos: menus de copiar/colar/recortar e opções similares aparecem em Português quando o idioma está configurado, oferecendo uma experiência mais consistente.
+  - Melhor feedback visual e acessível: botões principais (Adicionar Tarefa, Calendário) recebem ícones quando disponíveis e placeholders claros são exibidos nas listas e nas listas de concluídas.
+  - Estabilidade ao mover e editar tarefas: eventos entre listas são tratados para evitar duplicação ou perda de itens e para manter o calendário sincronizado.
+  - Robustez e logging ampliados: operações sensíveis (aplicação de locale, mudanças de idioma, conexões de sinais) têm tratamento de erros e logs para facilitar diagnóstico sem travar o app.
+  - Contexto e organização das listas: quadrantes e listas concluídas foram reforçados com comportamentos previsíveis e menus de contexto personalizados para ações sobre tarefas.
+
+Correções específicas no módulo:
+- Ajuste automático do formato de data para usar ano com quatro dígitos quando aplicável.
+- Evita erros silenciosos ao aplicar traduções e ao atualizar componentes de data/horário em tempo de execução.
+- Garantia de que os controles de horário só fiquem ativos quando apropriado (data vinculada) para evitar entradas inválidas.
+
 
 ______________________________
 

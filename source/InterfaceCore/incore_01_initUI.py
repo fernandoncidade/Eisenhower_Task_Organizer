@@ -9,6 +9,7 @@ logger = LogManager.get_logger()
 def get_text(text):
     return QCoreApplication.translate("InterfaceGrafica", text)
 
+
 class CustomTimeEdit(QTimeEdit):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -38,6 +39,73 @@ class CustomTimeEdit(QTimeEdit):
             super().stepBy(steps)
 
         self._last_time = self.time()
+
+_COMMON_CTX_TRANSLATIONS = {
+    "undo": "Desfazer",
+    "redo": "Refazer",
+    "cut": "Recortar",
+    "copy": "Copiar",
+    "paste": "Colar",
+    "delete": "Excluir",
+    "select all": "Selecionar Tudo",
+    "clear": "Limpar",
+    "insert": "Inserir",
+    "today": "Hoje",
+    "none": "Nenhum"
+}
+
+def _normalize_action_text(text: str) -> str:
+    if not text:
+        return ""
+
+    t = text.replace("&", "").strip()
+    if t.endswith("..."):
+        t = t[:-3].strip()
+
+    return t.lower()
+
+def _localize_menu(menu, app):
+    try:
+        idioma = None
+        if hasattr(app, "gerenciador_traducao"):
+            idioma = app.gerenciador_traducao.obter_idioma_atual()
+
+        use_pt = bool(idioma and idioma.startswith("pt"))
+
+    except Exception:
+        use_pt = False
+
+    for action in menu.actions():
+        if action.menu():  # submenu
+            _localize_menu(action.menu(), app)
+            continue
+
+        txt = action.text()
+        key = _normalize_action_text(txt)
+        if use_pt and key in _COMMON_CTX_TRANSLATIONS:
+            action.setText(_COMMON_CTX_TRANSLATIONS[key])
+
+
+class LocalizedDateEdit(QDateEdit):
+    def contextMenuEvent(self, event):
+        try:
+            menu = self.createStandardContextMenu()
+            _localize_menu(menu, self.window().parent() if self.window() else None or self)
+            menu.exec(event.globalPos())
+
+        except Exception:
+            super().contextMenuEvent(event)
+
+
+class LocalizedTimeEdit(CustomTimeEdit):
+    def contextMenuEvent(self, event):
+        try:
+            menu = self.createStandardContextMenu()
+            _localize_menu(menu, self.window().parent() if self.window() else None or self)
+            menu.exec(event.globalPos())
+
+        except Exception:
+            super().contextMenuEvent(event)
 
 def init_ui(app):
     app.main_layout = QVBoxLayout()
@@ -72,7 +140,7 @@ def init_ui(app):
     app.date_checkbox.setChecked(True)
     second_row_layout.addWidget(app.date_checkbox)
 
-    app.date_input = QDateEdit(app)
+    app.date_input = LocalizedDateEdit(app)
     app.date_input.setCalendarPopup(True)
     app.date_input.setDate(QDate.currentDate())
 
@@ -123,7 +191,7 @@ def init_ui(app):
     app.time_checkbox.setChecked(True)
     second_row_layout.addWidget(app.time_checkbox)
 
-    app.time_input = CustomTimeEdit(app)
+    app.time_input = LocalizedTimeEdit(app)
     app.time_input.setDisplayFormat("HH:mm")
     app.time_input.setEnabled(True)
     second_row_layout.addWidget(app.time_input)

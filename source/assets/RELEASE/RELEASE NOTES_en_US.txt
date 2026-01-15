@@ -1,50 +1,64 @@
-RELEASE NOTES: Version 0.0.8.0
+NOTES: Version 0.0.8.0
 Date: January 15, 2026
 
 Main new features and improvements:
 - Improved internationalization and date/time formatting:
-  - Translation manager with safe installation and removal of translators (includes attempt to load Qt translations).
-  - Dynamic application of QLocale according to the selected language; date formats adjusted automatically (includes handling for years using 'yyyy').
-  - Language-change signals propagated to components that display date/time (calendar popup, edit date/time dialog, inputs).
+  - Translation manager with safe installation and removal of translators (includes trying to load Qt translations).
+  - Dynamic application of QLocale according to the selected language; date formats adjust automatically (includes handling years with 'yyyy').
+  - Language-change signals propagated to components that show date/time (calendar popup, date/time edit dialog, inputs).
 
-- About dialog and integrated Release Notes:
-  - About window updated to show embedded release notes and multiple tabs (History, Details, Licenses, Notices, Privacy Policy and Release Notes).
-  - Header updated to show version 0.0.8.0 and improved runtime retranslation.
+- "About" dialog and Release Notes integrated:
+  - "About" window updated to show embedded release notes and multiple tabs (History, Details, Licenses, Notices, Privacy Policy and Release Notes).
+  - Header updated to version 0.0.8.0 and improved runtime retranslation.
 
-- Manual viewer revamped and navigable:
-  - Manual displayed in a non-modal dialog with a list of sections and an anchor-linked view.
-  - Section navigation, preservation of the current position when switching language, mapping of positions for quick jumps.
+- Manual viewer redesigned and navigable:
+  - Manual shown in a non-modal dialog with a list of sections and anchor-linked view.
+  - Section navigation, preservation of the current position when changing language, and mapped positions for quick jumps.
   - Visual improvements: relative font sizes, emphasized titles and support for the application icon.
 
 - Task date/time editing and rendering:
-  - Edit date/time dialog applies locale to the calendar popup and the time edit; correct synchronization between "Link date" and "Link time".
+  - Date/time edit dialog applies locale to the calendar popup and time edit; correct synchronization between "Link date" and "Link time".
   - Task display updates tooltip with formatted date/time, preserves base text and avoids orphaned time headers.
-  - Insert/remove operations use signal blocking and cleanup of time groups to avoid inconsistent states.
+  - Insert/remove item operations use signal blocking and cleanup of time groups to avoid inconsistent states.
 
 - Interface and shortcuts:
-  - Configuration menu rebuilt: checkable language entries, keyboard shortcuts (Ctrl+M for calendar, Ctrl+Shift+M for manual, F1/Help for About, Alt+A/I/O to open menus) with appropriate contexts.
+  - Settings menu rebuilt: checkable language entries, keyboard shortcuts (Ctrl+M for calendar, Ctrl+Shift+M for manual, F1/Help for About, Alt+A/I/O to open menus) with proper context.
   - Safe removal of old shortcuts before creating new ones, reducing conflicts.
 
 - Time controls:
-  - CustomTimeEdit with continuous minute-wrapping behavior (more comfortable minute navigation).
-  - TimeEdit receives a consistent display format and updates when switching language.
+  - CustomTimeEdit with continuous minute wrapping behavior (smoother minute navigation).
+  - TimeEdit receives a consistent display format and updates when the language changes.
 
 - Robustness, logging and exception handling:
-  - Expanded logging and exception handling at critical points (translation, file loading, UI updates), facilitating diagnosis without crashes.
+  - Expanded logging and exception handling at critical points (translation, file loading, UI updates), making diagnosis easier without crashes.
 
 Important fixes:
-- Fixed the version number shown in the About dialog (now 0.0.8.0).
-- Fixes in dynamic application of Qt translations and in searching for system .qm files, avoiding silent failures when translations are not present.
-- Prevents incorrect placeholders and lists containing non-selectable items when inserting/editing tasks.
-- Prevents loss or duplication of tasks when moving between lists: operations block signals and update calendar and persistence consistently.
-- Fixes for UI updates when switching language at runtime (dialogs, standard buttons, labels and menus).
+- Fixed the version number shown in the "About" dialog (now 0.0.8.0).
+- Fixes for dynamic application of Qt translations and searching for system .qm files, avoiding silent failures when translations are not present.
+- Prevents incorrect placeholders and lists with non-selectable items when inserting/editing tasks.
+- Prevents loss or duplication of tasks when moving between lists: operations block signals and consistently update calendar and persistence.
+- Fixes for UI updates when changing language at runtime (dialogs, default buttons, labels and menus).
 - Fixes for calendar popup behavior and displayed date/time formats.
-- Fixes for crashes when opening the Manual repeatedly (dialog reuse and focus) and when navigating by anchors.
+- Fixes for crashes when opening the Manual repeatedly (dialog reuse and focus) and when navigating anchors.
 
 Notes:
-- Changes focused on usability, localization and robustness; no file format or saving mechanism was altered.
-- The application continues to operate offline — no data is sent to external servers.
+- Changes focus on usability, localization and robustness; no file format or save mechanism was changed.
+- The app continues to operate offline — no data is sent to external servers.
 - For diagnostics, check the logs in the user's persistence directory.
+
+- Improvements in the interface module (incore_01_initUI.py):
+  - Friendlier date and time fields: formats adjust automatically to the language and the time control allows continuous minute scrolling, making it easier to pick times.
+  - Synchronization between "Link date" and "Link time": unchecking the date automatically disables the time to avoid inconsistent entries.
+  - Translated context menus: copy/cut/paste and similar menus appear in Portuguese when the language is set, providing a more consistent experience.
+  - Better visual and accessible feedback: main buttons (Add Task, Calendar) get icons when available and clear placeholders are shown in lists and completed lists.
+  - Stability when moving and editing tasks: events between lists are handled to avoid item duplication or loss and to keep the calendar synchronized.
+  - Expanded robustness and logging: sensitive operations (applying locale, language changes, signal connections) have error handling and logs to help diagnosis without crashing the app.
+  - Context and organization of lists: quadrants and completed lists were reinforced with predictable behaviors and custom context menus for task actions.
+
+Module-specific fixes:
+- Automatic adjustment of the date format to use a four-digit year when applicable.
+- Avoids silent errors when applying translations and updating date/time components at runtime.
+- Ensures time controls are only enabled when appropriate (date linked) to prevent invalid entries.
 
 
 ______________________________
