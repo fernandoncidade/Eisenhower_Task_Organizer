@@ -1,6 +1,7 @@
 from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QPushButton, QDateEdit, QCheckBox, QTimeEdit
 from PySide6.QtWidgets import QListWidgetItem
+from PySide6.QtGui import QFont
 from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
@@ -215,7 +216,27 @@ def edit_task_datetime(app, item, list_widget):
         new_item.setFlags(new_item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         new_item.setCheckState(item.checkState())
 
-        new_item.setData(Qt.UserRole, {"text": text, "date": new_date_iso, "time": new_time_str})
+        old_data = item.data(Qt.UserRole) or {}
+        new_data = {"text": text, "date": new_date_iso, "time": new_time_str}
+        if isinstance(old_data, dict):
+            if old_data.get("file_path"):
+                new_data["file_path"] = old_data.get("file_path")
+
+            if old_data.get("description"):
+                new_data["description"] = old_data.get("description")
+
+        new_item.setData(Qt.UserRole, new_data)
+
+        try:
+            if new_data.get("file_path"):
+                font = new_item.font() or QFont()
+                font.setBold(True)
+                new_item.setFont(font)
+                new_item.setForeground(Qt.blue)
+
+        except Exception:
+            pass
+
         if tooltip:
             new_item.setToolTip(tooltip)
 
@@ -223,6 +244,7 @@ def edit_task_datetime(app, item, list_widget):
             new_item.setToolTip("")
 
         list_widget.blockSignals(True)
+
         try:
             list_widget.takeItem(list_widget.row(item))
 

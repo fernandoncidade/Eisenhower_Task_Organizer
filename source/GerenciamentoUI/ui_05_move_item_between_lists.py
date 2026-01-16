@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QListWidgetItem
 from PySide6.QtCore import Qt
 from PySide6.QtCore import QCoreApplication, QDate
+from PySide6.QtGui import QFont
 from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
@@ -63,7 +64,37 @@ def move_item_between_lists(app, item, source, target, new_check_state):
         if data is not None:
             new_data = dict(data)
             new_data["time"] = time_value
+
+            try:
+                if target in (app.quadrant1_list, app.quadrant1_completed_list):
+                    new_data["priority"] = 1
+
+                elif target in (app.quadrant2_list, app.quadrant2_completed_list):
+                    new_data["priority"] = 2
+
+                elif target in (app.quadrant3_list, app.quadrant3_completed_list):
+                    new_data["priority"] = 3
+
+                elif target in (app.quadrant4_list, app.quadrant4_completed_list):
+                    new_data["priority"] = 4
+
+                else:
+                    new_data["priority"] = new_data.get("priority")
+
+            except Exception:
+                new_data["priority"] = new_data.get("priority")
+
             new_item.setData(Qt.UserRole, new_data)
+
+            try:
+                if new_data.get("file_path"):
+                    font = new_item.font() or QFont()
+                    font.setBold(True)
+                    new_item.setFont(font)
+                    new_item.setForeground(Qt.blue)
+
+            except Exception:
+                pass
 
         if tooltip:
             new_item.setToolTip(tooltip)

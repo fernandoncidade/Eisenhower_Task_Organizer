@@ -1,3 +1,29 @@
+NOTAS DE LANÇAMENTO: Versão 0.0.9.0
+Data: 16 de janeiro de 2026
+
+Principais novidades:
+- Melhorias na localização: datas e horários seguem o idioma selecionado.
+- Diálogo de edição de data/horário mais confiável e compatível com o calendário.
+- Arrastar e soltar aprimorado; agora é mais fácil vincular arquivos às tarefas.
+- Edição de descrição e pré-visualização rápida ao passar o mouse.
+- Importação/exportação mais robusta (JSON completo, XLSX, PDF), preservando arquivo, descrição e prioridade.
+- Sincronização automática com o calendário após mudanças nas tarefas.
+- Placeholders e listas tratados para evitar itens órfãos e manter a interface limpa.
+- Mais tolerância a erros e registros de log para reduzir falhas visíveis ao usuário.
+
+Correções e ajustes:
+- Evita perda ou duplicação de tarefas ao mover/editar itens.
+- Ajustes na exibição de datas/horários e no comportamento dos controles de tempo.
+- Mensagens de erro informativas quando bibliotecas externas não estão disponíveis.
+
+Observações:
+- Nenhum formato de arquivo ou mecanismo de salvamento foi alterado; os dados continuam sendo armazenados localmente.
+- O aplicativo opera totalmente offline — nenhum dado é enviado a servidores externos.
+
+
+______________________________
+
+
 NOTAS DE LANÇAMENTO: Versão 0.0.8.0
 Data: 15 de janeiro de 2026
 

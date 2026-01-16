@@ -1,11 +1,12 @@
 from __future__ import annotations
 from PySide6.QtCore import Qt, QCoreApplication, QDate, QLocale
 from PySide6.QtWidgets import QListWidgetItem
+from PySide6.QtGui import QFont
 from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
 def get_text(text: str) -> str:
-    return QCoreApplication.translate("App", text)
+    return QCoreApplication.translate("InterfaceGrafica", text)
 
 def _effective_locale(app) -> QLocale:
     try:
@@ -143,8 +144,31 @@ def atualizar_itens_tarefas(app):
                         new_data["text"] = base_text
                         new_item.setData(Qt.UserRole, new_data)
 
+                        try:
+                            if new_data.get("file_path"):
+                                font = new_item.font() or QFont()
+                                font.setBold(True)
+                                new_item.setFont(font)
+                                new_item.setForeground(Qt.blue)
+
+                        except Exception:
+                            pass
+
                     else:
                         new_item.setData(Qt.UserRole, {"text": base_text, "date": date_iso, "time": time_str})
+
+                    try:
+                        if isinstance(data, dict):
+                            file_path = data.get("file_path")
+                            if file_path:
+                                tooltip_lines.append(f"{get_text('Arquivo') or 'Arquivo'}: {file_path}")
+
+                            description = data.get("description")
+                            if description:
+                                tooltip_lines.append(f"{get_text('Descrição') or 'Descrição'}: {description}")
+
+                    except Exception:
+                        pass
 
                     if tooltip_lines:
                         new_item.setToolTip("\n".join(tooltip_lines))

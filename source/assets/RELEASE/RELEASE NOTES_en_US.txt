@@ -1,3 +1,29 @@
+NOTES: Version 0.0.9.0
+Date: January 16, 2026
+
+Main highlights:
+- Improved localization: dates and times follow the selected language.
+- More reliable date/time edit dialog with better calendar compatibility.
+- Enhanced drag-and-drop; it's now easier to attach files to tasks.
+- Task description editing and quick preview on hover.
+- More robust import/export (full JSON, XLSX, PDF), preserving file, description and priority.
+- Automatic synchronization with the calendar after task changes.
+- Placeholders and lists handled to avoid orphan items and keep the interface clean.
+- Greater error tolerance and logging to reduce visible failures for the user.
+
+Fixes and adjustments:
+- Prevents loss or duplication of tasks when moving/editing items.
+- Adjustments in the display of dates/times and in the behavior of time controls.
+- Informative error messages when external libraries are not available.
+
+Notes:
+- No file format or saving mechanism was changed; data continues to be stored locally.
+- The application works fully offline — no data is sent to external servers.
+
+
+______________________________
+
+
 NOTES: Version 0.0.8.0
 Date: January 15, 2026
 

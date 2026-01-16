@@ -14,7 +14,33 @@ def save_tasks(app):
                     text = data.get("text", item.text())
                     date = data.get("date")
                     time = data.get("time")
-                    entries.append({"text": text, "date": date, "time": time})
+                    entry = {"text": text, "date": date, "time": time}
+
+                    try:
+                        file_path = data.get("file_path")
+                        if file_path:
+                            entry["file_path"] = file_path
+
+                    except Exception:
+                        pass
+
+                    try:
+                        description = data.get("description")
+                        if description:
+                            entry["description"] = description
+
+                    except Exception:
+                        pass
+
+                    try:
+                        priority = data.get("priority")
+                        if priority is not None:
+                            entry["priority"] = priority
+
+                    except Exception:
+                        pass
+
+                    entries.append(entry)
 
             return entries
 

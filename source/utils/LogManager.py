@@ -280,7 +280,7 @@ class LogManager:
             file_logs = [p for p in all_files if os.path.basename(p).startswith("file_eisenhower_")]
             startup_logs = [p for p in all_files if os.path.basename(p).startswith("Eisenhower_startup_")]
 
-            if len(file_logs) + len(startup_logs) < 10:
+            if len(file_logs) + len(startup_logs) < 12:
                 return
 
             all_files_sorted = sorted(all_files, key=lambda p: os.path.getmtime(p))

@@ -1,5 +1,6 @@
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QListWidgetItem, QMessageBox
+from PySide6.QtGui import QFont
 from source.utils.LogManager import LogManager
 logger = LogManager.get_logger()
 
@@ -61,11 +62,63 @@ def add_task(app):
         task_item = QListWidgetItem(display_text)
         task_item.setFlags(task_item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         task_item.setCheckState(Qt.Unchecked)
-        task_item.setData(Qt.UserRole, {"text": task_text, "date": date_str, "time": time_str})
+
+        try:
+            priority = int(selected_quadrant) + 1
+
+        except Exception:
+            priority = None
+
+        task_item.setData(Qt.UserRole, {"text": task_text, "date": date_str, "time": time_str, "priority": priority})
         task_item.setToolTip(tooltip_text)
 
-        app.insert_task_into_quadrant_list(target_list, task_item)
+        try:
+            dragged_path = getattr(app, "_dragged_file_path", None)
+            if dragged_path:
+                reply = QMessageBox.question(
+                    app,
+                    get_text("Vincular Arquivo"),
+                    get_text("Deseja vincular o arquivo a esta tarefa?"),
+                    QMessageBox.Yes | QMessageBox.No
+                )
+                if reply == QMessageBox.Yes:
+                    try:
+                        data = task_item.data(Qt.UserRole) or {}
+                        data["file_path"] = dragged_path
+                        task_item.setData(Qt.UserRole, data)
+                        tt = task_item.toolTip() or ""
+                        if tt:
+                            tt = tt + "\n"
 
+                        tt = tt + (get_text("Arquivo") or "Arquivo") + f": {dragged_path}"
+                        task_item.setToolTip(tt)
+
+                        try:
+                            font = task_item.font() or QFont()
+                            font.setBold(True)
+                            task_item.setFont(font)
+                            task_item.setForeground(Qt.blue)
+
+                        except Exception:
+                            pass
+
+                    except Exception:
+                        logger.error("Erro ao vincular arquivo à tarefa", exc_info=True)
+
+                try:
+                    delattr(app, "_dragged_file_path")
+
+                except Exception:
+                    try:
+                        setattr(app, "_dragged_file_path", None)
+
+                    except Exception:
+                        pass
+
+        except Exception:
+            logger.error("Erro ao processar arquivo arrastado antes de adicionar tarefa", exc_info=True)
+
+        app.insert_task_into_quadrant_list(target_list, task_item)
         app.task_input.clear()
         app.save_tasks()
 
